@@ -1,33 +1,48 @@
 <template>
-    <header class="bg-white shadow-md">
-        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
-            <!-- Logo -->
-            <div class="flex items-center space-x-2 text-2xl font-bold">
-                <span class="text-red-500">MI</span>
-                <span class="text-yellow-500">G</span>
-                <span class="text-teal-600">Ú</span>
-            </div>
-
-            <!-- Navigation Links -->
-            <nav class="hidden md:flex space-x-6 text-gray-700 text-sm font-medium">
-                <a href="#"
-                    class="hover:text-teal-700 underline underline-offset-4 decoration-2 decoration-transparent hover:decoration-teal-600">Home</a>
-                <a href="#" class="hover:text-teal-700">Videos</a>
-                <a href="#" class="hover:text-teal-700">Colección</a>
-                <a href="#" class="hover:text-teal-700">Sobre nosotros</a>
-                <a href="#" class="hover:text-teal-700">Contáctanos</a>
-            </nav>
-
-            <!-- Icons -->
-            <div class="flex items-center space-x-4 text-teal-800 ">
-                <MagnifyingGlassIcon class="w-5 h-5 cursor-pointer" />
-                <ShoppingCartIcon class="w-5 h-5 cursor-pointer" />
-                <UserCircleIcon class="w-6 h-6 cursor-pointer" />
-            </div>
+    <header class="bg-white shadow-md fixed top-0 left-0 w-full z-50">
+      <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+        <!-- Logo -->
+        <router-link to="/" class="flex items-center space-x-2 text-2xl font-bold">
+          <span class="text-red-500">MI</span>
+          <span class="text-yellow-500">G</span>
+          <span class="text-teal-600">Ú</span>
+        </router-link>
+  
+        <!-- Navigation Links -->
+        <nav class="hidden md:flex space-x-6 text-gray-700 text-sm font-medium">
+          <router-link
+            v-for="link in links"
+            :key="link.to"
+            :to="link.to"
+            class="hover:text-teal-700 underline underline-offset-4 decoration-2 decoration-transparent hover:decoration-teal-600 transition"
+            :class="{ 'text-teal-700 decoration-teal-600': isActive(link.to) }"
+          >
+            {{ link.name }}
+          </router-link>
+        </nav>
+  
+        <!-- Icons -->
+        <div class="flex items-center space-x-4 text-teal-800">
+          <MagnifyingGlassIcon class="w-5 h-5 cursor-pointer" />
+          <ShoppingCartIcon class="w-5 h-5 cursor-pointer" />
+          <UserCircleIcon class="w-6 h-6 cursor-pointer" />
         </div>
+      </div>
     </header>
-</template>
-
-<script setup>
-import { MagnifyingGlassIcon, ShoppingCartIcon, UserCircleIcon } from '@heroicons/vue/24/outline'
-</script>
+  </template>
+  
+  <script setup>
+  import { useRoute } from 'vue-router'
+  import { MagnifyingGlassIcon, ShoppingCartIcon, UserCircleIcon } from '@heroicons/vue/24/outline'
+  
+  const route = useRoute()
+  const isActive = (path) => route.path === path
+  
+  const links = [
+    { name: 'Home', to: '/' },
+    { name: 'Videos', to: '/videos' },
+    { name: 'Colección', to: '/coleccion' },
+    { name: 'Sobre nosotros', to: '/sobre-nosotros' },
+    { name: 'Contáctanos', to: '/contactanos' }
+  ]
+  </script>
