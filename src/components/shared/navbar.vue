@@ -3,9 +3,7 @@
       <div class="container mx-auto px-4 py-4 flex items-center justify-between">
         <!-- Logo -->
         <router-link to="/" class="flex items-center space-x-2 text-2xl font-bold">
-          <span class="text-red-500">MI</span>
-          <span class="text-yellow-500">G</span>
-          <span class="text-teal-600">Ú</span>
+          <img src="/assets/logo-migu.webp" alt="Logo migu" class="w-[80px]" />
         </router-link>
   
         <!-- Navigation Links -->
