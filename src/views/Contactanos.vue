@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen bg-white py-12 px-6 md:px-16">
+    <div class="min-h-screen bg-white py-12 px-6 md:px-16 mt-10">
       <h1 class="text-3xl font-bold text-center mb-6">Contáctanos</h1>
       <form class="max-w-xl mx-auto space-y-6">
         <input type="text" placeholder="Nombre" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">

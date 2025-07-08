@@ -26,6 +26,7 @@
             </div>
           </div>
         </div>
+
       </div>
     </section>
   </template>
@@ -36,25 +37,25 @@
       name: 'Producto 1',
       description: 'Descripción breve del producto.',
       price: '29.99',
-      image: '/assets/producto-1.webp',
+      image: '/assets/producto.jpg',
     },
     {
       name: 'Producto 2',
       description: 'Otra descripción breve.',
       price: '49.99',
-      image: '/assets/producto-1.webp',
+      image: '/assets/producto.jpg',
     },
     {
       name: 'Producto 3',
       description: 'Descripción interesante.',
       price: '19.99',
-      image: '/assets/producto-1.webp',
+      image: '/assets/producto.jpg',
     },
     {
       name: 'Producto 4',
       description: 'Detalles atractivos del producto.',
       price: '39.99',
-      image: '/assets/producto-1.webp',
+      image: '/assets/producto.jpg',
     },
     // Puedes agregar más productos aquí
   ]

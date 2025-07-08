@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen bg-white py-12 px-6 md:px-16">
+    <div class="min-h-screen bg-white py-12 px-6 md:px-16 mt-10">
       <h1 class="text-3xl font-bold mb-6 text-center">Sobre Nosotros</h1>
       <div class="max-w-3xl mx-auto text-lg text-gray-700 leading-relaxed">
         <p>
