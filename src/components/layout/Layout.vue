@@ -1,24 +1,21 @@
 <template>
-    <div class="min-h-screen flex flex-col">
+    <div class="min-h-screen flex flex-col bg-[#fff9f6]">
         <!-- Navbar -->
         <Navbar />
 
         <!-- Main slot -->
-        <main class="flex-1">
+        <main class="flex-1 bg-[#fff9f6]">
             <slot />
         </main>
 
         <!-- Footer -->
-        <footer class="bg-gray-100 py-6">
-            <div class="container mx-auto px-4 text-center text-sm text-gray-500">
-                © 2025 MiLanding. Todos los derechos reservados.
-            </div>
-        </footer>
+        <Footer />
     </div>
 </template>
 
 <script setup>
-import Navbar from '../shared/navbar.vue';
+import Footer from '../shared/Footer.vue';
+import Navbar from '../shared/Navbar.vue';
 
 // Nada por ahora
 </script>
