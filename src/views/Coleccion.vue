@@ -22,11 +22,8 @@
         <div class="mb-6">
           <p class="font-medium text-sm mb-2">Tallas</p>
           <div class="flex flex-wrap gap-2">
-            <button
-              v-for="size in sizes"
-              :key="size"
-              class="px-3 py-1 border rounded-full text-sm hover:bg-[#ff4d6d] hover:text-white transition"
-            >
+            <button v-for="size in sizes" :key="size"
+              class="px-3 py-1 border rounded-full text-sm hover:bg-[#ff4d6d] hover:text-white transition">
               {{ size }}
             </button>
           </div>
@@ -36,12 +33,8 @@
         <div class="mb-6">
           <p class="font-medium text-sm mb-2">Colores</p>
           <div class="flex flex-wrap gap-2">
-            <span
-              v-for="color in colors"
-              :key="color"
-              :style="{ backgroundColor: color }"
-              class="w-6 h-6 rounded-full border cursor-pointer hover:scale-110 transition"
-            ></span>
+            <span v-for="color in colors" :key="color" :style="{ backgroundColor: color }"
+              class="w-6 h-6 rounded-full border cursor-pointer hover:scale-110 transition"></span>
           </div>
         </div>
 
@@ -60,23 +53,12 @@
       <main class="md:col-span-3">
         <h2 class="text-2xl font-bold mb-6">Colección destacada</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          <div
-            v-for="(product, index) in products"
-            :key="index"
-            class="bg-white shadow-md overflow-hidden hover:shadow-xl hover:scale-[1.02] transition"
-          >
-            <img :src="product.image" :alt="product.name" class="w-full h-140 object-cover" />
-            <div class="p-4">
-              <h3 class="text-lg font-semibold mb-2">{{ product.name }}</h3>
-              <p class="text-gray-600 text-sm mb-3">{{ product.description }}</p>
-              <div class="flex justify-between items-center">
-                <span class="text-xl font-bold text-[#ff4d6d]">${{ product.price }}</span>
-                <button class="px-4 py-2 bg-[#2b84ff] text-white text-sm rounded-lg hover:bg-[#1a6fe0] transition">
-                  Ver más
-                </button>
-              </div>
-            </div>
-          </div>
+
+          <CommerceCard v-for="(product, index) in products" title="Restaurante El Sabor"
+            description="Comida típica colombiana con sabores auténticos." :imageUrl="product.image"
+            price="$25.000" @view-details="handleDetails('Restaurante El Sabor')"
+            @buy="handleBuy('Restaurante El Sabor')" />
+
         </div>
       </main>
     </div>
@@ -84,6 +66,7 @@
 </template>
 
 <script setup>
+import CommerceCard from "@/components/cards/CommerceCard.vue";
 import { products } from "@/data/data"
 
 const sizes = ["0-3m", "3-6m", "6-12m", "1-2y", "3-4y", "5-6y", "7-8y"];

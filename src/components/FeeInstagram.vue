@@ -45,13 +45,13 @@ const images = [
   { url: "/assets/shop/migu-img-4.jpg" },
   { url: "/assets/shop/migu-img-3.jpg" },
   { url: "/assets/shop/migu-img-4.jpg" },
-   { url: "/assets/shop/migu-img-3.jpg" },
-  { url: "/assets/shop/migu-img-4.jpg" },
+   { url: "/assets/shop/migu-img-5.jpg" },
+  { url: "/assets/shop/migu-img-6.jpg" },
   { url: "/assets/shop/migu-img-3.jpg" },
   { url: "/assets/shop/migu-img-4.jpg" },
   { url: "/assets/shop/migu-img-3.jpg" },
   { url: "/assets/shop/migu-img-4.jpg" },
     { url: "/assets/shop/migu-img-3.jpg" },
-  { url: "/assets/shop/migu-img-4.jpg" },
+  { url: "/assets/shop/migu-img-5.jpg" },
 ]
 </script>

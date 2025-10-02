@@ -16,8 +16,8 @@
 
       <!-- Info del producto -->
       <div class="flex flex-col justify-center">
-        <h1 class="text-3xl font-bold text-[#2b2b2b] mb-4">{{ product.name }}</h1>
-        <p class="text-gray-600 text-lg mb-6">{{ product.description }}</p>
+        <h1 class="text-6xl font-bold text-[#2b2b2b] mb-4">{{ product.name }}</h1>
+        <p class="text-gray-600 text-xl mb-6">{{ product.description }}</p>
 
         <span class="text-3xl font-bold text-[#ff4d6d] mb-6">${{ product.price }}</span>
 
@@ -86,7 +86,6 @@ function handleAddToCart() {
     size: selectedSize.value,
     color: selectedColor.value,
   })
-  alert("Producto agregado al carrito ✅")
 }
 
 function handleBuyNow() {

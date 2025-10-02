@@ -4,7 +4,7 @@ export const products = [
     name: "Vestido Rosa",
     description: "Vestido de algodón suave y cómodo para niñas.",
     price: 39.99,
-    image: "/assets/shop/migu-img-1.jpg",
+    image: "/assets/shop/migu-img-3.jpg",
     gallery: [
       "/assets/shop/migu-img-1.jpg",
       "/assets/shop/migu-img-2.jpg",
@@ -18,7 +18,7 @@ export const products = [
     name: "Camisa Blanca Niño",
     description: "Camisa fresca de algodón para climas cálidos.",
     price: 24.99,
-    image: "/assets/shop/migu-img-2.jpg",
+    image: "/assets/shop/migu-img-4.jpg",
     gallery: [
       "/assets/shop/migu-img-1.jpg",
       "/assets/shop/migu-img-2.jpg",
@@ -32,7 +32,7 @@ export const products = [
     name: "Conjunto Deportivo",
     description: "Conjunto cómodo de sudadera y pantalón para jugar.",
     price: 49.99,
-    image: "/assets/shop/migu-img-3.jpg",
+    image: "/assets/shop/migu-img-5.jpg",
     gallery: [
       "/assets/shop/migu-img-1.jpg",
       "/assets/shop/migu-img-2.jpg",
@@ -46,7 +46,7 @@ export const products = [
     name: "Pijama Estampada",
     description: "Pijama de algodón con estampados divertidos.",
     price: 29.99,
-    image: "/assets/shop/migu-img-4.jpg",
+    image: "/assets/shop/migu-img-6.jpg",
     gallery: [
       "/assets/shop/migu-img-1.jpg",
       "/assets/shop/migu-img-2.jpg",
@@ -74,7 +74,7 @@ export const products = [
     name: "Vestido Azul Princesa",
     description: "Vestido elegante para ocasiones especiales.",
     price: 69.99,
-    image: "/assets/shop/migu-img-6.jpg",
+    image: "/assets/shop/migu-img-3.jpg",
     gallery: [
       "/assets/shop/migu-img-1.jpg",
       "/assets/shop/migu-img-2.jpg",
@@ -88,7 +88,7 @@ export const products = [
     name: "Chaqueta Invierno Niño",
     description: "Chaqueta acolchada ideal para el frío.",
     price: 89.99,
-    image: "/assets/shop/migu-img-7.jpg",
+    image: "/assets/shop/migu-img-3.jpg",
     gallery: [
       "/assets/shop/migu-img-1.jpg",
       "/assets/shop/migu-img-2.jpg",
@@ -102,7 +102,7 @@ export const products = [
     name: "Gorro de Lana",
     description: "Gorro tejido para abrigar en climas fríos.",
     price: 14.99,
-    image: "/assets/shop/migu-img-8.jpg",
+    image: "/assets/shop/migu-img-4.jpg",
     gallery: [
       "/assets/shop/migu-img-1.jpg",
       "/assets/shop/migu-img-2.jpg",
@@ -116,7 +116,7 @@ export const products = [
     name: "Conjunto Verano",
     description: "Shorts y camiseta ligera para los días de calor.",
     price: 34.99,
-    image: "/assets/shop/migu-img-9.jpg",
+    image: "/assets/shop/migu-img-5.jpg",
     gallery: [
       "/assets/shop/migu-img-1.jpg",
       "/assets/shop/migu-img-2.jpg",
@@ -130,7 +130,7 @@ export const products = [
     name: "Mameluco Bebé",
     description: "Mameluco de algodón suave para recién nacidos.",
     price: 19.99,
-    image: "/assets/shop/migu-img-10.jpg",
+    image: "/assets/shop/migu-img-6.jpg",
     gallery: [
       "/assets/shop/migu-img-1.jpg",
       "/assets/shop/migu-img-2.jpg",
