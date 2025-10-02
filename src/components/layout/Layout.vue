@@ -17,5 +17,6 @@
 import Footer from '../shared/Footer.vue';
 import Navbar from '../shared/Navbar.vue';
 
+
 // Nada por ahora
 </script>
