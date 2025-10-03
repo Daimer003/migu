@@ -7,7 +7,7 @@
       </router-link>
 
       <!-- Navigation Links -->
-      <nav class="hidden md:flex space-x-6 text-gray-700 text-sm font-medium">
+      <nav class="hidden md:flex space-x-6 text-gray-700 text-xl font-medium">
         <router-link v-for="link in links" :key="link.to" :to="link.to"
           class="hover:text-teal-700 underline underline-offset-4 decoration-2 decoration-transparent hover:decoration-teal-600 transition"
           :class="{ 'text-teal-700 decoration-teal-600': isActive(link.to) }">
@@ -20,8 +20,8 @@
         <div class="relative" @click="push('/buscar')">
           <MagnifyingGlassIcon class="w-5 h-5 cursor-pointer" />
         </div>
-        <div class="relative">
-          <ShoppingCartIcon class="w-5 h-5 cursor-pointer" @click="cartSidebar?.openCart()" />
+        <div class="relative cursor-pointer" @click="cartSidebar?.openCart()">
+          <ShoppingCartIcon class="w-5 h-5 cursor-pointer"  />
           <span v-if="cart.length > 0"
             class="absolute justify-center items-center w-[18px] h-[18px] -top-3 -right-3 bg-red-500 text-white text-center text-xs px-2 py-1 rounded-full">
             {{ cart.length }}

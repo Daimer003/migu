@@ -1,32 +1,36 @@
 <template>
   <section class="bg-[#fff9f6] min-h-screen py-12 mt-30">
-    <div class="max-w-[1900px] mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12">
+    <div class="max-w-[1200px] mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12" v-if="product">
 
       <!-- Imagen principal -->
       <div class="space-y-4">
-        <img :src="product.image" :alt="product.name" class="w-full h-[900px] object-cover  shadow-lg" />
+        <img :src="mainImage" :alt="product.name" class="w-full max-w-[600px] h-[600px] object-cover shadow-lg" />
 
         <!-- Galería -->
         <div class="flex gap-4">
           <img v-for="(img, idx) in product.gallery" :key="idx" :src="img"
-            class="w-24 h-24 object-cover cursor-pointer border hover:scale-105 transition"
-            @click="product.image = img" />
+            class="w-24 h-24 object-cover cursor-pointer border hover:scale-105 transition" @click="mainImage = img" />
         </div>
       </div>
 
       <!-- Info del producto -->
-      <div class="flex flex-col justify-center">
-        <h1 class="text-6xl font-bold text-[#2b2b2b] mb-4">{{ product.name }}</h1>
-        <p class="text-gray-600 text-xl mb-6">{{ product.description }}</p>
+      <div class="flex flex-col ">
+        <h1 class="text-3xl font-bold text-[#2b2b2b] mb-2">{{ product.name }}</h1>
+        <p class="text-sm text-gray-500 mb-4">Ref. {{ product.ref }}</p>
 
-        <span class="text-3xl font-bold text-[#ff4d6d] mb-6">${{ product.price }}</span>
+        <!-- Precios -->
+        <div class="mb-4">
+          <span class="line-through text-gray-400 mr-2">${{ product.oldPrice }}</span>
+          <span class="text-2xl font-bold text-[#ff4d6d]">${{ product.price }}</span>
+          <span class="ml-2 text-sm text-red-500">Ahorra: ${{ product.savings }} ({{ product.discount }}%)</span>
+        </div>
 
         <!-- Tallas -->
         <div class="mb-6">
-          <h3 class="font-semibold text-lg mb-2">Tallas disponibles</h3>
+          <h3 class="font-semibold text-lg mb-2">Talla</h3>
           <div class="flex gap-2">
-            <button v-for="size in product.sizes" :key="size"
-              class="px-4 py-2 border rounded-lg text-sm hover:bg-[#ff4d6d] hover:text-white transition">
+            <button v-for="size in product.sizes" :key="size" @click="selectedSize = size" :class="['px-4 py-2 border rounded-lg text-sm transition',
+              selectedSize === size ? 'bg-[#2b84ff] text-white' : 'hover:bg-gray-100']">
               {{ size }}
             </button>
           </div>
@@ -34,11 +38,20 @@
 
         <!-- Colores -->
         <div class="mb-6">
-          <h3 class="font-semibold text-lg mb-2">Colores</h3>
+          <h3 class="font-semibold text-lg mb-2">Color</h3>
           <div class="flex gap-2">
-            <span v-for="color in product.colors" :key="color" :style="{ backgroundColor: color }"
-              class="w-8 h-8 rounded-full border cursor-pointer hover:scale-110 transition"></span>
+            <span v-for="color in product.colors" :key="color" @click="selectedColor = color"
+              :style="{ backgroundColor: color }" :class="['w-8 h-8 rounded-full border cursor-pointer transition',
+                selectedColor === color ? 'ring-2 ring-[#2b84ff]' : 'hover:scale-110']">
+            </span>
           </div>
+        </div>
+
+        <!-- Cantidad -->
+        <div class="mb-6 flex items-center gap-4">
+          <button @click="quantity > 1 ? quantity-- : null" class="px-3 py-1 border rounded">-</button>
+          <span class="text-lg font-semibold">{{ quantity }}</span>
+          <button @click="quantity++" class="px-3 py-1 border rounded">+</button>
         </div>
 
         <!-- Botones -->
@@ -51,46 +64,93 @@
             Comprar ahora
           </button>
         </div>
+
+        <!-- Tabs -->
+        <div class="mt-8">
+          <div class="flex gap-6 border-b pb-2">
+            <button @click="activeTab = 'desc'"
+              :class="['font-semibold', activeTab === 'desc' ? 'text-[#2b84ff]' : 'text-gray-500']">Descripción</button>
+            <button @click="activeTab = 'care'"
+              :class="['font-semibold', activeTab === 'care' ? 'text-[#2b84ff]' : 'text-gray-500']">Cuidados</button>
+          </div>
+          <div class="mt-4 text-gray-600">
+            <p v-if="activeTab === 'desc'">{{ product.longDescription }}</p>
+            <p v-else>{{ product.care }}</p>
+          </div>
+        </div>
+
+        <!-- Carrito actual -->
+        <div class="mt-12 border-t pt-6">
+          <h3 class="font-bold text-lg mb-4">Carrito actual</h3>
+          <div v-if="cart.length" class="space-y-2">
+            <div v-for="(item, i) in cart" :key="i" class="flex justify-between items-center border p-2 rounded">
+              <span>{{ item.name }} (x{{ item.quantity }})</span>
+              <button @click="removeFromCart(i)" class="text-red-500 text-sm">Eliminar</button>
+            </div>
+          </div>
+          <p v-else class="text-gray-500">Tu carrito está vacío.</p>
+        </div>
+
       </div>
+
     </div>
+
+    <div v-else class="text-center text-gray-600 py-20">
+      Producto no encontrado 😢
+    </div>
+
+     <div>
+      <ProductGrid />
+     </div>
   </section>
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref, computed, watch } from "vue"
+import { useRoute, useRouter } from "vue-router"
 import { useCart } from "@/composables/useCart"
+import { products } from "@/data/data" // 👉 importa tu data de prueba
+import ProductGrid from "../productGrid/ProductGrid.vue"
 
-const { addToCart } = useCart()
+const route = useRoute()
+const { push } = useRouter()
+const productId = ref(Number(route.params.id))
 
+watch(
+  () => route.params.id,
+  (newId) => {
+    productId.value = Number(newId)
+    const newProduct = products.find(p => p.id === productId.value)
+    mainImage.value = newProduct?.image || ""
+  }
+)
+
+
+// Busca el producto en la data
+const product = computed(() => products.find(p => p.id === productId.value) || null)
+
+// Imagen principal seleccionada
+const mainImage = ref(product.value?.image || "")
+
+const { cart, addToCart, removeFromCart } = useCart()
 const selectedSize = ref(null)
 const selectedColor = ref(null)
-
-const product = {
-  name: "Vestido Rosa",
-  description: "Vestido de algodón suave y cómodo para niñas. Perfecto para ocasiones especiales o uso diario.",
-  price: "39.99",
-  image: "/assets/shop/migu-img-1.jpg",
-  gallery: [
-    "/assets/shop/migu-img-1.jpg",
-    "/assets/shop/migu-img-1.jpg",
-    "/assets/shop/migu-img-1.jpg",
-  ],
-  sizes: ["0-3m", "3-6m", "6-12m", "1-2y", "3-4y"],
-  colors: ["#ff4d6d", "#2b84ff", "#10b981"],
-};
+const quantity = ref(1)
+const activeTab = ref("desc")
 
 // 👉 Lógica de botones
 function handleAddToCart() {
+  if (!product.value) return
   addToCart({
-    ...product,
+    ...product.value,
     size: selectedSize.value,
     color: selectedColor.value,
+    quantity: quantity.value
   })
 }
 
 function handleBuyNow() {
   handleAddToCart()
-  // aquí puedes redirigir a checkout directo
-  alert("Redirigiendo a la compra 🔥")
+  push('/verificar')
 }
 </script>
