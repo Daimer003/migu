@@ -3,11 +3,7 @@
     class="bg-white shadow-md overflow-hidden hover:shadow-xl hover:scale-[1.02] transition"
   >
     <!-- Imagen -->
-    <img
-      :src="imageUrl"
-      :alt="title"
-      class="w-full h-140 object-cover"
-    />
+    <img :src="imageUrl" :alt="title" class="w-full h-140 object-cover" />
 
     <!-- Contenido -->
     <div class="p-4">
@@ -21,14 +17,14 @@
       <!-- Botones -->
       <div class="flex gap-2">
         <button
-          class="flex-1 px-4 py-2 bg-gray-200 text-gray-700 text-sm  hover:bg-gray-300 transition"
-          @click="push('/detalles/1')"
+          class="flex-1 px-4 py-2 bg-gray-200 text-gray-700 text-sm hover:bg-gray-300 transition"
+          @click="goToDetails"
         >
           Ver Detalles
         </button>
         <button
-          class="flex-1 px-4 py-2 bg-[#2b84ff] text-white text-sm  hover:bg-[#1a6fe0] transition"
-          @click="push('/verificar')"
+          class="flex-1 px-4 py-2 bg-[#2b84ff] text-white text-sm hover:bg-[#1a6fe0] transition"
+          @click="goToCheckout"
         >
           Comprar
         </button>
@@ -38,17 +34,43 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
+import { computed } from "vue"
+import { useCart } from "@/composables/useCart"
+import { useRouter } from "vue-router"
+import { products } from "@/data/data"
 
+const router = useRouter()
+const { addToCart } = useCart()
 
-const { push } =useRouter()
-
-defineProps({
+// Recibimos props
+const props = defineProps({
+  id: {
+    type: [String, Number],
+    required: true,
+  },
   title: String,
   description: String,
   imageUrl: String,
   price: [String, Number],
 })
 
-defineEmits(["view-details", "buy"])
+// Busca el producto en la data
+const product = computed(() => products.find((p) => p.id === props.id) || null)
+
+// Navegación
+function goToDetails() {
+  router.push(`/detalles/${props.id}`)
+}
+
+function goToCheckout() {
+  if (!product.value) return
+
+  // Agregamos al carrito con cantidad = 1
+  addToCart({
+    ...product.value,
+    quantity: 1,
+  })
+
+  router.push(`/verificar`)
+}
 </script>

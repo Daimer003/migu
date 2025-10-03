@@ -54,10 +54,8 @@
         <h2 class="text-2xl font-bold mb-6">Colección destacada</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
 
-          <CommerceCard v-for="(product, index) in products" title="Restaurante El Sabor"
-            description="Comida típica colombiana con sabores auténticos." :imageUrl="product.image"
-            price="$25.000" @view-details="handleDetails('Restaurante El Sabor')"
-            @buy="handleBuy('Restaurante El Sabor')" />
+          <CommerceCard v-for="product in products" :key="product.id" :id="product.id" :title="product.name"
+            :description="product.description" :imageUrl="product.image" :price="product.price" />
 
         </div>
       </main>
@@ -66,9 +64,10 @@
 </template>
 
 <script setup>
-import CommerceCard from "@/components/cards/CommerceCard.vue";
+import CommerceCard from "@/components/cards/CommerceCard.vue"
 import { products } from "@/data/data"
 
-const sizes = ["0-3m", "3-6m", "6-12m", "1-2y", "3-4y", "5-6y", "7-8y"];
-const colors = ["#ff4d6d", "#2b84ff", "#facc15", "#10b981", "#9b59b6", "#000000"];
+const sizes = ["0-3m", "3-6m", "6-12m", "1-2y", "3-4y", "5-6y", "7-8y"]
+const colors = ["#ff4d6d", "#2b84ff", "#facc15", "#10b981", "#9b59b6", "#000000"]
+
 </script>
