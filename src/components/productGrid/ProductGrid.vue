@@ -36,7 +36,7 @@
 
             <div class="flex justify-between items-center">
               <span class="text-xl font-bold text-white">
-                ${{ product.price }}
+                ${{ product.price.toLocaleString() }}
               </span>
               <button
                 @click="goDetail(product.id)"
@@ -60,20 +60,17 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
+import { ref, onMounted } from "vue"
+import { useRouter } from "vue-router"
+import { Swiper, SwiperSlide } from "swiper/vue"
+import "swiper/css"
+import "swiper/css/navigation"
+import "swiper/css/pagination"
+import { getProducts } from "@/services/product.service" // si usas Supabase
+// import { products as localProducts } from "@/data/data" // si usas datos locales
 
-// Swiper
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
-import { products } from '@/data/data'
-
-const { push } = useRouter()
-
-const goDetail = (id) => {
-  push(`/detalles/${id}`)
-}
+const router = useRouter()
+const products = ref([])
 
 const bgColors = [
   "bg-[#2b84ff]",
@@ -81,4 +78,19 @@ const bgColors = [
   "bg-[#ff4d6d]",
   "bg-[#ff9be2]"
 ]
+
+// 🔹 Si usas Supabase:
+onMounted(async () => {
+  const { data, error } = await getProducts()
+  console.log(data)
+  if (!error) products.value = data
+  else console.error("Error al cargar productos:", error)
+})
+
+// 🔹 Si prefieres usar datos locales por ahora, comenta el bloque anterior y descomenta esto:
+// products.value = localProducts
+
+const goDetail = (id) => {
+  router.push(`/detalles/${id}`)
+}
 </script>

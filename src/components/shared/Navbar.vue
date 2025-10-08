@@ -7,7 +7,7 @@
       </router-link>
 
       <!-- Navigation Links -->
-      <nav class="hidden md:flex space-x-6 text-gray-700 text-xl font-medium">
+      <nav class="hidden md:flex space-x-6 text-gray-700 text-lg font-medium">
         <router-link v-for="link in links" :key="link.to" :to="link.to"
           class="hover:text-teal-700 underline underline-offset-4 decoration-2 decoration-transparent hover:decoration-teal-600 transition"
           :class="{ 'text-teal-700 decoration-teal-600': isActive(link.to) }">
@@ -23,7 +23,7 @@
         <div class="relative cursor-pointer" @click="cartSidebar?.openCart()">
           <ShoppingCartIcon class="w-5 h-5 cursor-pointer"  />
           <span v-if="cart.length > 0"
-            class="absolute justify-center items-center w-[18px] h-[18px] -top-3 -right-3 bg-red-500 text-white text-center text-xs px-2 py-1 rounded-full">
+            class="absolute justify-center items-center w-[18px] h-[18px] -top-2 -right-3 bg-red-500 text-white text-center text-xs  rounded-full">
             {{ cart.length }}
           </span>
         </div>

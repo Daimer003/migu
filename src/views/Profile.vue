@@ -1,41 +1,29 @@
 <template>
-  <section class="min-h-screen mt-30 ">
+  <section class="min-h-screen mt-30">
     <div class="max-w-3xl mx-auto px-6 py-10">
-      <!-- Encabezado -->
       <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
         Mi Perfil
       </h2>
 
-      <!-- Card de perfil -->
-      <div class="bg-white shadow p-6">
-        <!-- Foto de perfil (opcional) -->
-        <div class="flex justify-center mb-6">
-          <div class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-xl">
-            <span>👤</span>
-          </div>
-        </div>
-
-        <!-- Formulario -->
+      <div class="bg-white shadow p-6 rounded-lg">
         <form @submit.prevent="saveProfile" class="space-y-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700">Nombre completo</label>
+            <label class="block text-sm font-medium text-gray-700">Nombre de usuario</label>
             <input
-              v-model="user.name"
+              v-model="user.username"
               type="text"
-              placeholder="Tu nombre"
+              placeholder="Tu nombre de usuario"
               class="mt-1 w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2b84ff] focus:outline-none"
               required
             />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+            <label class="block text-sm font-medium text-gray-700">Fecha de nacimiento</label>
             <input
-              v-model="user.email"
-              type="email"
-              placeholder="tucorreo@ejemplo.com"
+              v-model="user.birthday"
+              type="date"
               class="mt-1 w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2b84ff] focus:outline-none"
-              required
             />
           </div>
 
@@ -49,20 +37,18 @@
             />
           </div>
 
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Preferencias</label>
-            <select
-              v-model="user.preference"
-              class="mt-1 w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2b84ff] focus:outline-none"
-            >
-              <option value="">Selecciona una</option>
-              <option value="promotions">Promociones y descuentos</option>
-              <option value="events">Eventos especiales</option>
-              <option value="both">Ambos</option>
-            </select>
+          <div class="flex items-center space-x-2">
+            <input
+              v-model="user.newsletter"
+              type="checkbox"
+              id="newsletter"
+              class="rounded text-[#2b84ff] focus:ring-[#2b84ff]"
+            />
+            <label for="newsletter" class="text-sm text-gray-700">
+              Deseo recibir novedades y descuentos
+            </label>
           </div>
 
-          <!-- Botón -->
           <div class="pt-4">
             <button
               type="submit"
@@ -79,16 +65,26 @@
 
 <script setup>
 import { ref } from "vue"
+import { registerUser } from "@/services/user.service"
 
 const user = ref({
-  name: "",
-  email: "",
+  username: "",
+  birthday: "",
   phone: "",
-  preference: ""
+  newsletter: false
 })
 
-const saveProfile = () => {
-  alert("Perfil guardado con éxito ✅")
-  console.log("Perfil del usuario:", user.value)
+const saveProfile = async () => {
+  try {
+
+
+    const { error } = await registerUser(null, user.value)
+    if (error) throw error
+
+    alert("✅ Perfil guardado con éxito.")
+  } catch (error) {
+    console.error("Error al guardar perfil:", error.message)
+    alert("❌ Hubo un problema al guardar el perfil.")
+  }
 }
 </script>
