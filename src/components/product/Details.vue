@@ -139,8 +139,8 @@ const product = ref(null)
 const mainImage = ref("")
 const selectedSize = ref(null)
 const selectedColor = ref(null)
-const quantity = ref(1)
 const activeTab = ref("desc")
+const quantity = ref(1)
 const stock = ref([])
 const id = Number(route.params.id)
 
@@ -178,14 +178,31 @@ function handleAddToCart() {
     return
   }
 
-  addToCart({
+  // Verificamos si ya existe el producto en el carrito con la misma talla y color
+  const existingIndex = cart.value.findIndex(
+    item =>
+      item.id === product.value.id &&
+      item.size === selectedSize.value &&
+      item.color === selectedColor.value
+  )
+
+  const newItem = {
     ...product.value,
     size: selectedSize.value,
     color: selectedColor.value,
     quantity: quantity.value,
-  })
-}
+  }
 
+  if (existingIndex !== -1) {
+    // ✅ Reemplaza la cantidad en vez de incrementarla
+    cart.value[existingIndex] = newItem
+  } else {
+    // Si no existe, lo agrega normalmente
+    addToCart(newItem)
+  }
+
+  alert(`Producto agregado al carrito con ${quantity.value} unidad(es).`)
+}
 function handleBuyNow() {
   handleAddToCart()
   router.push("/verificar")
