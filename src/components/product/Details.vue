@@ -39,24 +39,27 @@
         </div>
 
         <!-- Tallas -->
-        <div class="mb-6">
-          <h3 class="font-semibold text-lg mb-2">Talla</h3>
-          <div class="flex gap-2">
-            <button
-              v-for="size in product.sizes || []"
-              :key="size"
-              @click="selectedSize = size"
-              :class="[
-                'px-4 py-2 border rounded-lg text-sm transition',
-                selectedSize === size
-                  ? 'bg-[#2b84ff] text-white'
-                  : 'hover:bg-gray-100',
-              ]"
-            >
-              {{ size }}
-            </button>
-          </div>
-        </div>
+       <div class="mb-6">
+  <h3 class="font-semibold text-lg mb-2">Talla</h3>
+  <div class="flex gap-2 flex-wrap">
+    <button
+      v-for="size in stock"
+      :key="size.size"
+      @click="selectedSize = size.size"
+      :disabled="size.quantity === 0 || size.quantity < quantity"
+      :class="[
+        'px-4 py-2 border rounded-lg text-sm transition duration-200',
+        selectedSize === size.size
+          ? 'bg-[#2b84ff] text-white border-[#2b84ff]'
+          : size.quantity === 0
+          ? 'bg-gray-200 text-gray-400 cursor-not-allowed opacity-60'
+          : 'hover:bg-gray-100'
+      ]"
+    >
+      {{ size.size }}
+    </button>
+  </div>
+</div>
 
         <!-- Colores -->
         <div class="mb-6">
@@ -167,10 +170,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue"
+import { ref, onMounted, watch } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import { useCart } from "@/composables/useCart"
-import { getProductById } from "@/services/product.service"
+import { getProductById, getProductSizes } from "@/services/product.service"
 import ProductGrid from "../productGrid/ProductGrid.vue"
 
 const route = useRoute()
@@ -183,21 +186,43 @@ const selectedSize = ref(null)
 const selectedColor = ref(null)
 const quantity = ref(1)
 const activeTab = ref("desc")
+const stock = ref([])
+const id = Number(route.params.id)
 
 onMounted(async () => {
-  const id = Number(route.params.id)
   const { data, error } = await getProductById(id)
-  if (error) {
-    console.error("❌ Error al obtener producto:", error.message)
-    return
+  if (!error) {
+    product.value = data
+    mainImage.value = data.image
   }
-  product.value = data
-  mainImage.value = data.image || ""
+
+  const sizes = await getProductSizes(id)
+  stock.value = sizes || []
 })
 
-// 👉 Lógica de botones
+// ✅ Límite de cantidad según stock disponible
+watch([selectedSize, quantity], ([newSize, newQty]) => {
+  if (!newSize) return
+
+  const selected = stock.value.find(s => s.size === newSize)
+  if (selected && newQty > selected.quantity) {
+    quantity.value = selected.quantity // limitar automáticamente
+  }
+})
+
+// ✅ Añadir al carrito con validación
 function handleAddToCart() {
-  if (!product.value) return
+  if (!product.value || !selectedSize.value) {
+    alert("Selecciona una talla disponible antes de continuar.")
+    return
+  }
+
+  const selected = stock.value.find(s => s.size === selectedSize.value)
+  if (!selected || selected.quantity < quantity.value) {
+    alert("Cantidad no disponible para esta talla.")
+    return
+  }
+
   addToCart({
     ...product.value,
     size: selectedSize.value,

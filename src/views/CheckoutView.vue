@@ -4,67 +4,45 @@
       <h2 class="text-2xl font-bold mb-6 text-gray-800">Detalles de tu compra</h2>
 
       <!-- Lista de productos en el carrito -->
-      <div
-        v-for="(item, index) in cart"
-        :key="index"
-        class="flex items-center justify-between bg-white p-4 rounded-lg shadow mb-4"
-      >
-        <!-- Imagen y nombre -->
+      <div v-for="(item, index) in cart" :key="index"
+        class="flex items-center justify-between bg-white p-4 rounded-lg shadow mb-4">
         <div class="flex items-center space-x-4">
-          <img
-            :src="item.image"
-            :alt="item.name"
-            class="w-16 h-16 object-cover rounded-md"
-          />
+          <img :src="item.image" :alt="item.name" class="w-16 h-16 object-cover rounded-md" />
           <div>
             <h3 class="font-semibold text-gray-800">{{ item.name }}</h3>
             <p class="text-sm text-gray-500">Precio unitario: ${{ item.price }}</p>
 
-            <!-- Controles de cantidad -->
             <div class="flex items-center space-x-2 mt-2">
-              <button
-                @click="decreaseQuantity(index)"
-                class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
-              >
+              <button @click="decreaseQuantity(index)" class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">
                 ➖
               </button>
               <span class="px-2">{{ item.quantity }}</span>
-              <button
-                @click="increaseQuantity(index)"
-                class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
-              >
+              <button @click="increaseQuantity(index)" class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">
                 ➕
               </button>
             </div>
           </div>
         </div>
 
-        <!-- Precio total y eliminar -->
         <div class="flex flex-col items-end">
           <span class="text-lg font-bold text-[#ff4d6d]">
             ${{ (item.price * item.quantity).toFixed(2) }}
           </span>
-          <button
-            @click="removeItem(index)"
-            class="mt-2 text-sm text-red-500 hover:underline"
-          >
+          <button @click="removeItem(index)" class="mt-2 text-sm text-red-500 hover:underline">
             🗑 Eliminar
           </button>
         </div>
       </div>
 
-      <!-- Si el carrito está vacío -->
       <div v-if="cart.length === 0" class="text-center text-gray-500">
         Tu carrito está vacío 🛒
       </div>
 
-      <!-- Total -->
       <div v-if="cart.length > 0" class="flex justify-between items-center mt-8 border-t pt-4">
         <h3 class="text-xl font-bold text-gray-800">Total:</h3>
         <span class="text-2xl font-bold text-[#ff4d6d]">${{ total }}</span>
       </div>
 
-      <!-- Datos de usuario y envío -->
       <div v-if="cart.length > 0" class="mt-10">
         <h2 class="text-xl font-bold text-gray-800 mb-4">Datos de envío y usuario</h2>
         <form @submit.prevent="pay" class="space-y-4">
@@ -95,14 +73,9 @@
             </div>
           </div>
 
-          <!-- Botón de pagar -->
-          <div class="mt-8">
-            <button
-              type="submit"
-              class="w-full py-3 bg-[#2b84ff] text-white text-lg font-semibold rounded-lg hover:bg-[#1a6fe0] transition"
-            >
-              Pagar con Wompi
-            </button>
+          <!-- Botón de pagar con Wompi -->
+          <div class="mt-8 text-center">
+            <WompiButton  />
             <p class="mt-2 text-sm text-gray-500 text-center">
               Serás redirigido a <span class="font-semibold">Wompi</span> para finalizar tu compra de forma segura 🔒
             </p>
@@ -116,35 +89,36 @@
 <script setup>
 import { computed, reactive } from "vue"
 import { useCart } from "@/composables/useCart"
+import WompiButton from "@/components/wompiButton/WompiButton.vue"
 
 const { cart } = useCart()
 
-// Total
+// Total del carrito
 const total = computed(() =>
   cart.value.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)
 )
 
-// Datos de usuario y envío
+// Redirección dinámica
+const redirectUrl = `${window.location.origin}/confirmacion`
+
+// Formulario de datos del comprador
 const form = reactive({
   name: "",
   email: "",
   phone: "",
   address: "",
   city: "",
-  zip: ""
+  zip: "",
 })
 
-// Funciones de carrito
+// Funciones para manipular el carrito
 const increaseQuantity = (index) => {
   cart.value[index].quantity++
 }
 
 const decreaseQuantity = (index) => {
-  if (cart.value[index].quantity > 1) {
-    cart.value[index].quantity--
-  } else {
-    removeItem(index) // si queda en 0, lo eliminamos
-  }
+  if (cart.value[index].quantity > 1) cart.value[index].quantity--
+  else removeItem(index)
 }
 
 const removeItem = (index) => {
@@ -156,4 +130,6 @@ const pay = () => {
   console.log("Carrito final:", cart.value)
   alert("Redirigiendo a Wompi con tus datos...")
 }
+
+console.log(cart)
 </script>
