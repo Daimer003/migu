@@ -17,6 +17,28 @@ export default {
       widgetReady: false,
     };
   },
+
+  props: {
+    cart: {
+      type: Array,
+      required: true,
+    },
+    form: {
+      type: Object,
+      required: true,
+    },
+    total: {
+      type: Number,
+      required: true,
+    },
+    redirectUrl: {
+      type: String,
+      required: true,
+    },
+  },
+
+
+  
   mounted() {
     // Cargar el script de Wompi dinámicamente
     const script = document.createElement('script');
@@ -34,8 +56,10 @@ export default {
   methods: {
     async openWompiCheckout() {
 
+      console.log(this.total)
+
       const reference = `ORDER-${Date.now()}`;
-      const amountInCents = 5000 * 100;// Convertir a centavos
+      const amountInCents = this.total * 100;// Convertir a centavos
       const currency = "COP";
 
       // 🔹 Llamar a la función Edge de Supabase
@@ -67,6 +91,13 @@ export default {
           publicKey: result.publicKey,
           signature: { integrity: result.signature },
           redirectUrl: 'http://migu.com.co/',
+
+          customerData: {
+            fullName: this.form.name,
+            email: this.form.email,
+            phoneNumberPrefix: '+57',
+            phoneNumber: this.form.phone,
+          },
         });
 
         checkout.open((paymentResult) => {

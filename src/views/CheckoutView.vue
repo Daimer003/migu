@@ -48,34 +48,34 @@
         <form @submit.prevent="pay" class="space-y-4">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700">Nombre completo</label>
-              <input v-model="form.name" type="text" required class="w-full p-2 border rounded-lg" />
+              <label class="block text-xs font-medium text-gray-500">Nombre completo</label>
+              <input v-model="form.name" type="text" required class="w-full p-2 border border-gray-500 rounded-lg text-xl text-gray-500" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700">Correo electrónico</label>
-              <input v-model="form.email" type="email" required class="w-full p-2 border rounded-lg" />
+              <label class="block text-xs font-medium text-gray-500">Correo electrónico</label>
+              <input v-model="form.email" type="email" required class="w-full p-2 border rounded-lg  border-gray-500  text-xl text-gray-500" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700">Teléfono</label>
-              <input v-model="form.phone" type="tel" required class="w-full p-2 border rounded-lg" />
+              <label class="block text-xs font-medium text-gray-500">Teléfono</label>
+              <input v-model="form.phone" type="tel" required class="w-full p-2 border rounded-lg border-gray-500  text-xl text-gray-500" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700">Dirección</label>
-              <input v-model="form.address" type="text" required class="w-full p-2 border rounded-lg" />
+              <label class="block text-xs font-medium text-gray-500">Dirección</label>
+              <input v-model="form.address" type="text" required class="w-full p-2 border rounded-lg border-gray-500  text-xl text-gray-500" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700">Ciudad</label>
-              <input v-model="form.city" type="text" required class="w-full p-2 border rounded-lg" />
+              <label class="block text-xs font-medium text-gray-500">Ciudad</label>
+              <input v-model="form.city" type="text" required class="w-full p-2 border rounded-lg border-gray-500  text-xl text-gray-500" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700">Código Postal</label>
-              <input v-model="form.zip" type="text" required class="w-full p-2 border rounded-lg" />
+              <label class="block text-xs font-medium text-gray-500">Código Postal</label>
+              <input v-model="form.zip" type="text" required class="w-full p-2 border rounded-lg border-gray-500  text-xl text-gray-500" />
             </div>
           </div>
 
           <!-- Botón de pagar con Wompi -->
           <div class="mt-8 text-center">
-            <WompiButton  />
+            <WompiButton :cart="cart" :form="form" :total="total" :redirectUrl="redirectUrl" />
             <p class="mt-2 text-sm text-gray-500 text-center">
               Serás redirigido a <span class="font-semibold">Wompi</span> para finalizar tu compra de forma segura 🔒
             </p>
@@ -95,7 +95,7 @@ const { cart } = useCart()
 
 // Total del carrito
 const total = computed(() =>
-  cart.value.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)
+  cart.value.reduce((sum, item) => sum + item.price * item.quantity, 0)
 )
 
 // Redirección dinámica
@@ -128,7 +128,6 @@ const removeItem = (index) => {
 const pay = () => {
   console.log("Datos del usuario:", form)
   console.log("Carrito final:", cart.value)
-  alert("Redirigiendo a Wompi con tus datos...")
 }
 
 console.log(cart)

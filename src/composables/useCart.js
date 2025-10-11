@@ -4,9 +4,9 @@ const cart = ref(JSON.parse(localStorage.getItem("cart")) || [])
 
 export function useCart() {
   // Computed total
-  const total = computed(() =>
-    cart.value.reduce((acc, item) => acc + item.price * item.quantity, 0)
-  )
+ const total = computed(() =>
+  Math.round(cart.value.reduce((acc, item) => acc + item.price * item.quantity, 0))
+)
 
   // Guardar en localStorage cada vez que cambia el carrito
   watch(
