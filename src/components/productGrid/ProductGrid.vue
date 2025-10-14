@@ -82,12 +82,11 @@ const bgColors = [
 // 🔹 Si usas Supabase:
 onMounted(async () => {
   const { data, error } = await getProducts()
-  console.log(data)
   if (!error) products.value = data
   else console.error("Error al cargar productos:", error)
 })
 
-// 🔹 Si prefieres usar datos locales por ahora, comenta el bloque anterior y descomenta esto:
+// Si prefieres usar datos locales por ahora, comenta el bloque anterior y descomenta esto:
 // products.value = localProducts
 
 const goDetail = (id) => {

@@ -64,10 +64,23 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from "vue"
 import CommerceCard from "@/components/cards/CommerceCard.vue"
-import { products } from "@/data/data"
+import { getProducts } from "@/services/product.service" // si usas Supabase
+
+const products = ref([])
 
 const sizes = ["0-3m", "3-6m", "6-12m", "1-2y", "3-4y", "5-6y", "7-8y"]
 const colors = ["#ff4d6d", "#2b84ff", "#facc15", "#10b981", "#9b59b6", "#000000"]
+
+
+// 🔹 Si usas Supabase:
+onMounted(async () => {
+  const { data, error } = await getProducts()
+  console.log(data)
+  if (!error) products.value = data
+  else console.error("Error al cargar productos:", error)
+})
+
 
 </script>

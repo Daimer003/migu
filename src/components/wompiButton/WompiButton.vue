@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { createPayment } from '@/services/payment.service';
 import { generateSignature } from '@/services/signature.service';
 
 export default {
@@ -38,7 +39,7 @@ export default {
   },
 
 
-  
+
   mounted() {
     // Cargar el script de Wompi dinámicamente
     const script = document.createElement('script');
@@ -55,8 +56,6 @@ export default {
   },
   methods: {
     async openWompiCheckout() {
-
-      console.log(this.total)
 
       const reference = `ORDER-${Date.now()}`;
       const amountInCents = this.total * 100;// Convertir a centavos
@@ -75,15 +74,12 @@ export default {
       }
 
       try {
-        console.log("✅ Firma generada:", result.signature);
-        console.log("PUBLIC KEY front:", import.meta.env.VITE_WOMPI_PUBLIC_KEY);
-
         if (!result.signature || !result.publicKey) {
           throw new Error('No se pudo obtener la firma o la clave pública.');
         }
-        // 🔹 Crear el widget con la firma recibida
 
-        console.log(amountInCents)
+        console.log('Iniciando pago con Wompi...');
+        // Crear el widget con la firma recibida
         const checkout = new window.WidgetCheckout({
           currency,
           amountInCents,
@@ -100,11 +96,19 @@ export default {
           },
         });
 
+
         checkout.open((paymentResult) => {
-          console.log('Resultado del pago:', paymentResult);
+          const payment = createPayment({
+            idTransaccion: paymentResult.transaction.id,
+            reference: paymentResult.transaction.reference,
+            amount: this.total,
+          });
+          console.log('Registro de pago creado:', payment);
         });
+
+
       } catch (err) {
-        console.error("❌ Error generando la firma:", err);
+        console.error("Error generando la firma:", err);
       }
     },
   },

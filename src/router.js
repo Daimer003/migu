@@ -10,6 +10,7 @@ import Details from "./components/product/Details.vue";
 import CheckoutView from "./views/CheckoutView.vue";
 import SearchView from "./views/SearchView.vue";
 import Profile from "./views/Profile.vue";
+import Dashboard from "./views/dashboard/Dashboard.vue";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
@@ -20,7 +21,9 @@ const routes = [
   { path: "/detalles/:id", name: "Detalles", component: Details },
   { path: "/verificar/", name: "Checkout", component: CheckoutView },
   { path: "/buscar/", name: "Buscar", component: SearchView },
-  { path: "/perfil/", name: "perfil", component: Profile },
+  { path: "/perfil/", name: "Perfil", component: Profile },
+
+  { path: "/dashboard/", name: "Dashboard", component: Dashboard },
 ];
 
 const router = createRouter({
