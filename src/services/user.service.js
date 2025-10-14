@@ -1,43 +1,62 @@
 // src/services/user.service.js
-import { supabase } from "@/lib/supabaseClient"
+import { supabase } from "@/lib/supabaseClient";
 
 // Función para registrar un nuevo usuario
 export const registerUser = async (_, userData) => {
   try {
-    const { data, error } = await supabase
-      .from("users_info")
-      .insert([{
+    const { data, error } = await supabase.from("users_info").insert([
+      {
         username: userData.username,
         birthday: userData.birthday,
         phone: userData.phone,
         newsletter: userData.newsletter,
-        created_at: new Date()
-      }])
+        created_at: new Date(),
+      },
+    ]);
 
-    return { data, error }
+    return { data, error };
   } catch (error) {
-    console.error("Error en registerUser:", error.message)
-    return { error }
+    console.error("Error en registerUser:", error.message);
+    return { error };
   }
-}
+};
 
 // Función para enviar mensajes de contacto
 export const sendContactMessage = async (_, contactData) => {
   try {
-    const { data, error } = await supabase
-      .from("contacts")
-      .insert([
-        {
-          name: contactData.name,
-          email: contactData.email,
-          message: contactData.message,
-          created_at: new Date()
-        }
-      ])
+    const { data, error } = await supabase.from("contacts").insert([
+      {
+        name: contactData.name,
+        email: contactData.email,
+        message: contactData.message,
+        created_at: new Date(),
+      },
+    ]);
 
-    return { data, error }
+    return { data, error };
   } catch (error) {
-    console.error("Error en sendContactMessage:", error.message)
-    return { error }
+    console.error("Error en sendContactMessage:", error.message);
+    return { error };
   }
-}
+};
+
+// Estado reactivo para el usuario y su rol
+export const getUserAuth = async () => {
+  const {
+    data: { user: currentUser },
+  } = await supabase.auth.getUser();
+
+  console.log("Usuario actual:", currentUser);
+
+  if (currentUser) {
+    return {
+      user: currentUser,
+      role: "authenticated", // Aquí puedes implementar lógica para roles más complejos
+    };
+  } else {
+    return {
+      user: null,
+      role: null,
+    }
+  }
+};

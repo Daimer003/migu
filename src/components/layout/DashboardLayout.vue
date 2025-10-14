@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex bg-gray-100">
+  <div class="w-full min-h-screen flex pt-14">
     <!-- Sidebar -->
     <aside class="w-64 bg-white shadow-md p-6">
       <h2 class="text-2xl font-bold mb-6 text-gray-800">Panel Admin</h2>
@@ -19,6 +19,15 @@
           🚚 Órdenes
         </button>
       </nav>
+
+      <div class="mt-6 border-t pt-4">
+        <button
+          class="w-full text-left px-4 py-2 rounded-md hover:bg-red-100 text-red-600 font-semibold transition"
+          @click="logout"
+        >
+          🔒 Cerrar sesión
+        </button>
+      </div>
     </aside>
 
     <!-- Contenido principal -->
@@ -32,4 +41,14 @@
 defineProps({
   tab: String
 })
+
+
+import { supabase } from '@/lib/supabaseClient'
+
+
+
+async function logout() {
+  const { error } = await supabase.auth.signOut()
+  if (error) alert(error.message)
+}
 </script>
