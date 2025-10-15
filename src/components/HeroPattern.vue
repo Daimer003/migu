@@ -1,59 +1,128 @@
 <template>
-  <div class="flex relative justify-center items-center w-full rounded-2xl min-h-[400px]">
-    <div class="absolute   grid grid-cols-3 gap-5">
+  <div
+    class="backdrop-blur-md bg-white/10 text-white p-10 rounded-3xl max-w-[700px] w-full mx-auto shadow-2xl"
+  >
+    <h2 class="text-4xl text-black font-extrabold mb-3 text-center">
+      Arma la palabra <span class="text-[#2b84ff]">MIGÚ</span>
+    </h2>
+    <p class="text-base text-black text-center mb-8 opacity-80">
+      Arrastra las piezas hacia los recuadros para formar <strong>MIGÚ</strong> y
+      <span class="font-bold text-[#2b84ff]">descubre si ganas un descuento</span>.
+    </p>
 
-      <!-- Azul con curva rosa -->
-      <svg viewBox="0 0 100 100" class="w-64 h-64">
-        <rect width="100" height="100" fill="#2b84ff" />
-        <path d="M10 60 C30 10, 70 10, 90 60" stroke="#ff6ec7" stroke-width="10" fill="none" stroke-linecap="round"/>
-      </svg>
-
-      <!-- Verde con flor azul -->
-      <svg viewBox="0 0 100 100" class="w-64 h-64">
-        <rect width="100" height="100" fill="#d7f04f"/>
-        <g class="spin-slow" transform="translate(50,50)">
-          <g v-for="i in 6" :key="i" :transform="`rotate(${(i-1)*60})`">
-            <ellipse cx="25" cy="0" rx="10" ry="18" fill="#2b84ff"/>
-          </g>
-          <circle r="12" fill="#ff93c9"/>
-        </g>
-      </svg>
-
-      <!-- Rojo con semicírculo -->
-      <svg viewBox="0 0 100 100" class="w-64 h-64">
-        <rect width="100" height="100" fill="#ff3b2e"/>
-        <circle cx="65" cy="50" r="25" fill="#ff93c9"/>
-      </svg>
-
-      <!-- Azul Z -->
-      <svg viewBox="0 0 100 100" class="w-64 h-64">
-        <rect width="100" height="100" fill="#2b84ff"/>
-        <path d="M20 25 L80 25 L20 75 L80 75" fill="#fff7ef"/>
-      </svg>
-
-      <!-- Verde con flor roja -->
-      <svg viewBox="0 0 100 100" class="w-64 h-64">
-        <rect width="100" height="100" fill="#d7f04f"/>
-        <g class="spin-reverse" transform="translate(50,50)">
-          <g v-for="i in 6" :key="i" :transform="`rotate(${(i-1)*60})`">
-            <ellipse cx="22" cy="0" rx="8" ry="16" fill="#ff3b2e"/>
-          </g>
-          <circle r="10" fill="#ff93c9"/>
-        </g>
-      </svg>
-
-      <!-- Amarillo sólido -->
-      <svg viewBox="0 0 100 100" class="w-64 h-64">
-        <rect width="100" height="100" fill="#d7f04f"/>
-      </svg>
+    <!-- Letras desordenadas -->
+    <div class="grid grid-cols-4 gap-6 justify-items-center mb-10">
+      <div
+        v-for="(piece, index) in shuffledPieces"
+        :key="index"
+        class="text-5xl font-extrabold flex justify-center items-center rounded-xl cursor-grab select-none transition-transform duration-200 hover:scale-110 w-24 h-24"
+        draggable="true"
+        :style="{ backgroundColor: piece.color }"
+        @dragstart="onDragStart(piece)"
+      >
+        {{ piece.letter }}
+      </div>
     </div>
+
+    <!-- Zona para ordenar -->
+    <div class="grid grid-cols-4 gap-6 justify-items-center mb-6">
+      <div
+        v-for="(slot, index) in slots"
+        :key="'slot-' + index"
+        class="border-2 border-dashed border-gray-400 w-24 h-24 flex justify-center items-center rounded-xl text-lg font-bold transition-all duration-200 hover:border-[#2b84ff]"
+        @dragover.prevent
+        @drop="onDrop(index)"
+      >
+        <span
+          v-if="slot"
+          class="text-4xl font-extrabold"
+          :style="{ color: slot.color }"
+        >
+          {{ slot.letter }}
+        </span>
+        <span v-else class="text-gray-400 text-sm">Coloca aquí</span>
+      </div>
+    </div>
+
+    <!-- Botón de reinicio -->
+    <div class="text-center">
+      <button
+        @click="resetGame"
+        class="bg-[#2b84ff] hover:bg-[#1a63cc] px-6 py-3 rounded-xl text-white font-semibold transition-all duration-200"
+      >
+        Reiniciar
+      </button>
+    </div>
+
+    <!-- Mensaje -->
+    <p
+      v-if="message"
+      class="mt-6 text-center text-lg text-black font-semibold"
+      :class="{
+        'text-green-600': message.includes('¡Felicidades!'),
+        'text-red-600': message.includes('inténtalo de nuevo'),
+      }"
+    >
+      {{ message }}
+    </p>
   </div>
 </template>
 
-<style scoped>
-@keyframes spin-slow { from { transform: rotate(0deg);} to {transform: rotate(360deg);} }
-@keyframes spin-reverse { from { transform: rotate(360deg);} to {transform: rotate(0deg);} }
+<script setup>
+import { ref } from "vue";
 
-.spin-slow { animation: spin-slow 10s linear infinite; transform-origin: center; }
-.spin-reverse { animation: spin-reverse 12s linear infinite; transform-origin: center; }
-</style>
+const pieces = [
+  { letter: "M", color: "#2b84ff" },
+  { letter: "I", color: "#d7f04f" },
+  { letter: "G", color: "#ff3b2e" },
+  { letter: "Ú", color: "#2b84ff" },
+];
+
+const shuffledPieces = ref([...pieces].sort(() => Math.random() - 0.5));
+const slots = ref([null, null, null, null]);
+const draggedPiece = ref(null);
+const message = ref("");
+
+function onDragStart(piece) {
+  draggedPiece.value = piece;
+}
+
+function onDrop(index) {
+  if (!draggedPiece.value) return;
+  if (slots.value[index]) return;
+
+  slots.value[index] = draggedPiece.value;
+  shuffledPieces.value = shuffledPieces.value.filter(
+    (p) => p.letter !== draggedPiece.value.letter
+  );
+  draggedPiece.value = null;
+  checkWord();
+}
+
+function checkWord() {
+  const word = slots.value.map((s) => (s ? s.letter : "")).join("");
+  if (word.length < 4) {
+    message.value = "Faltan piezas o están en el orden incorrecto.";
+    return;
+  }
+
+  if (word === "MIGÚ") {
+    // Generar probabilidad de ganar (30% chance)
+    const gana = Math.random() < 0.3;
+    if (gana) {
+      const descuento = [5, 10, 15, 20][Math.floor(Math.random() * 4)];
+      message.value = `🎉 ¡Felicidades! Ganaste un descuento del ${descuento}% en tu próxima compra.`;
+    } else {
+      message.value = "🎯 ¡Correcto! Has armado MIGÚ, pero esta vez no ganaste. ¡Inténtalo de nuevo!";
+    }
+  } else {
+    message.value = "❌ Orden incorrecto, inténtalo de nuevo.";
+  }
+}
+
+function resetGame() {
+  shuffledPieces.value = [...pieces].sort(() => Math.random() - 0.5);
+  slots.value = [null, null, null, null];
+  message.value = "";
+}
+</script>

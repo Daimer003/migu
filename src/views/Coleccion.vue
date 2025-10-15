@@ -1,5 +1,5 @@
 <template>
-  <section class="min-h-screen mt-30">
+  <section class="min-h-screen mt-15">
     <div class="max-w-[1900px] mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-4 gap-10">
 
       <!-- Sidebar -->
@@ -77,7 +77,6 @@ const colors = ["#ff4d6d", "#2b84ff", "#facc15", "#10b981", "#9b59b6", "#000000"
 // 🔹 Si usas Supabase:
 onMounted(async () => {
   const { data, error } = await getProducts()
-  console.log(data)
   if (!error) products.value = data
   else console.error("Error al cargar productos:", error)
 })

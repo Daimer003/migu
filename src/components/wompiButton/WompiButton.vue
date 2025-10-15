@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button v-if="widgetReady" class="bg-green-600 text-white px-4 py-2 rounded" @click="openWompiCheckout">
+    <button v-if="widgetReady" class="bg-green-600 px-6 py-3 rounded-xl font-semibold text-white" @click="openWompiCheckout">
       Pagar con Wompi
     </button>
 

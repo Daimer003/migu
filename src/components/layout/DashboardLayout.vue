@@ -45,8 +45,6 @@ defineProps({
 
 import { supabase } from '@/lib/supabaseClient'
 
-
-
 async function logout() {
   const { error } = await supabase.auth.signOut()
   if (error) alert(error.message)

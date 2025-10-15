@@ -66,7 +66,15 @@
         class="flex justify-between items-center mt-8 border-t pt-4"
       >
         <h3 class="text-xl font-bold text-gray-800">Total:</h3>
-        <span class="text-2xl font-bold text-[#ff4d6d]">${{ total }}</span>
+        <div class="text-right">
+          <span
+            v-if="discountApplied"
+            class="block text-sm text-green-600 font-medium"
+          >
+            Descuento aplicado (-10%)
+          </span>
+          <span class="text-2xl font-bold text-[#ff4d6d]">${{ totalWithDiscount }}</span>
+        </div>
       </div>
 
       <!-- Datos del comprador -->
@@ -140,20 +148,33 @@
             </div>
           </div>
 
-          <!-- Botón de pago -->
-          <div class="mt-8 text-center">
+          <!-- Botones de acción -->
+          <div class="mt-8 flex flex-col md:flex-row justify-center items-center gap-4">
             <WompiButton
               :cart="cart"
               :form="form"
-              :total="total"
+              :total="totalWithDiscount"
               :redirectUrl="redirectUrl"
             />
-            <p class="mt-2 text-sm text-gray-500 text-center">
-              Serás redirigido a
-              <span class="font-semibold">Wompi</span> para finalizar tu compra de
-              forma segura 🔒
-            </p>
+            <button
+              :disabled="!userHasDiscount || discountApplied"
+              @click="applyDiscount"
+              :class="[
+                'px-6 py-3 rounded-xl font-semibold transition-all duration-200',
+                userHasDiscount && !discountApplied
+                  ? 'bg-gray-600 hover:bg-gray-700 text-white cursor-pointer'
+                  : 'bg-gray-300 text-gray-600 cursor-not-allowed'
+              ]"
+            >
+              Aplicar descuento
+            </button>
           </div>
+
+          <p class="mt-2 text-sm text-gray-500 text-center">
+            Serás redirigido a
+            <span class="font-semibold">Wompi</span> para finalizar tu compra de
+            forma segura 🔒
+          </p>
         </form>
       </div>
     </div>
@@ -161,17 +182,25 @@
 </template>
 
 <script setup>
-import { reactive } from "vue"
+import { reactive, ref, computed } from "vue"
 import { useCart } from "@/composables/useCart"
 import WompiButton from "@/components/wompiButton/WompiButton.vue"
 
-// Composable del carrito
 const { cart, total, increment, decrement, removeFromCart } = useCart()
-
-// Redirección dinámica
 const redirectUrl = `${window.location.origin}/confirmacion`
 
-// Formulario comprador
+// Simulación: el usuario ganó un descuento en el juego MIGÚ
+const userHasDiscount = ref(true) // ✅ Cámbialo dinámicamente cuando el usuario gane
+
+const discountApplied = ref(false)
+
+const totalWithDiscount = computed(() => {
+  if (discountApplied.value) {
+    return (total.value * 0.9).toFixed(0)
+  }
+  return total.value
+})
+
 const form = reactive({
   name: "",
   email: "",
@@ -181,13 +210,18 @@ const form = reactive({
   zip: "",
 })
 
-// ✅ Controladores de cantidad
 const increaseQuantity = (item) => increment(item)
 const decreaseQuantity = (item) => decrement(item)
 
-// Pagar (debug)
+const applyDiscount = () => {
+  if (userHasDiscount.value && !discountApplied.value) {
+    discountApplied.value = true
+  }
+}
+
 const pay = () => {
   console.log("🧾 Datos del usuario:", form)
   console.log("🛒 Carrito final:", cart.value)
+  console.log("💸 Total a pagar:", totalWithDiscount.value)
 }
 </script>

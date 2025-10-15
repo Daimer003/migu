@@ -8,12 +8,13 @@ import { ref } from 'vue';
 const tab = ref("products")
 </script>
 
-<template> <AuthGuard>
-    <DashboardLayout :tab="tab" @change-tab="tab = $event">
-       
+<template>
+    <AuthGuard>
+        <DashboardLayout :tab="tab" @change-tab="tab = $event">
+
             <ProductsTable v-if="tab === 'products'" />
             <OrdersTable v-else />
 
-    </DashboardLayout>
-            </AuthGuard>
+        </DashboardLayout>
+    </AuthGuard>
 </template>

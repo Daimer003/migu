@@ -5,7 +5,29 @@
         Nuestros Productos
       </h2>
 
+      <!-- 🔹 Mostrar skeletons mientras carga -->
+      <div v-if="loading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div
+          v-for="n in 4"
+          :key="n"
+          class="bg-white shadow-md rounded-lg overflow-hidden animate-pulse"
+        >
+          <div class="bg-gray-300 h-[400px] w-full"></div>
+          <div class="p-5 space-y-3">
+            <div class="h-5 bg-gray-300 rounded w-3/4"></div>
+            <div class="h-4 bg-gray-200 rounded w-full"></div>
+            <div class="h-4 bg-gray-200 rounded w-5/6"></div>
+            <div class="flex justify-between items-center pt-3">
+              <div class="h-6 w-16 bg-gray-300 rounded"></div>
+              <div class="h-8 w-20 bg-gray-300 rounded-full"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 🔹 Mostrar productos cuando cargan -->
       <swiper
+        v-else
         :slides-per-view="1"
         :space-between="20"
         :breakpoints="{
@@ -23,7 +45,11 @@
           class="relative group overflow-hidden shadow-md hover:shadow-xl transform hover:-translate-y-2 transition duration-300 bg-white"
         >
           <!-- Imagen -->
-          <img :src="product.image" :alt="product.name" class="w-full min-h-[400px] object-cover" />
+          <img
+            :src="product.image"
+            :alt="product.name"
+            class="w-full min-h-[400px] object-cover"
+          />
 
           <!-- Contenido con colores -->
           <div :class="bgColors[index % bgColors.length]" class="relative z-20 p-5 -mt-6">
@@ -66,11 +92,11 @@ import { Swiper, SwiperSlide } from "swiper/vue"
 import "swiper/css"
 import "swiper/css/navigation"
 import "swiper/css/pagination"
-import { getProducts } from "@/services/product.service" // si usas Supabase
-// import { products as localProducts } from "@/data/data" // si usas datos locales
+import { getProducts } from "@/services/product.service"
 
 const router = useRouter()
 const products = ref([])
+const loading = ref(true)
 
 const bgColors = [
   "bg-[#2b84ff]",
@@ -79,17 +105,32 @@ const bgColors = [
   "bg-[#ff9be2]"
 ]
 
-// 🔹 Si usas Supabase:
 onMounted(async () => {
-  const { data, error } = await getProducts()
-  if (!error) products.value = data
-  else console.error("Error al cargar productos:", error)
+  try {
+    const { data, error } = await getProducts()
+    if (!error) products.value = data
+  } catch (err) {
+    console.error("Error al cargar productos:", err)
+  } finally {
+    loading.value = false
+  }
 })
-
-// Si prefieres usar datos locales por ahora, comenta el bloque anterior y descomenta esto:
-// products.value = localProducts
 
 const goDetail = (id) => {
   router.push(`/detalles/${id}`)
 }
 </script>
+
+<style scoped>
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+.animate-pulse {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+</style>
