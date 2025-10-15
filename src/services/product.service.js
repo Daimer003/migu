@@ -33,12 +33,34 @@ export const addProduct = async (_, productData) => {
 }
 
 // Obtener productos
-export const getProducts = async () => {
+export const getProducts = async (filters = {}) => {
   try {
-    const { data, error } = await supabase
+    let query = supabase
       .from("products")
       .select("*")
       .order("created_at", { ascending: false })
+
+    // Aplicar categoría
+    if (filters.category) {
+      query = query.ilike("category", `%${filters.category}%`)
+    }
+
+    // Aplicar talla (si el producto tiene campo sizes como texto o JSON)
+    if (filters.size) {
+      query = query.contains("sizes", [filters.size])
+    }
+
+    // Aplicar color (si hay un campo colors como JSON o texto)
+    if (filters.color) {
+      query = query.contains("colors", [filters.color])
+    }
+
+    // Aplicar filtro por precio máximo
+    if (filters.price) {
+      query = query.lte("price", filters.price)
+    }
+
+    const { data, error } = await query
 
     return { data, error }
   } catch (error) {
