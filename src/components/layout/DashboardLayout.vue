@@ -44,9 +44,14 @@ defineProps({
 
 
 import { supabase } from '@/lib/supabaseClient'
+import { useRouter } from 'vue-router'
+const { push } = useRouter()
 
 async function logout() {
   const { error } = await supabase.auth.signOut()
   if (error) alert(error.message)
+
+
+  push('/dashboard')
 }
 </script>

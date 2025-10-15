@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { getUserAuth } from '@/services/user.service'
 import Login from './Login.vue'
 
@@ -30,4 +30,18 @@ onMounted(async () => {
     loading.value = false
   }
 })
+
+watch(
+  () => user.value,
+  async (newUser) => {
+    if (newUser) {
+      const response = await getUserAuth()
+      user.value = response.user
+      role.value = response.role
+    } else {
+      user.value = null
+      role.value = null
+    }
+  }
+)
 </script>
