@@ -1,9 +1,9 @@
 <template>
   <section
-    class="relative w-full h-[500px] flex items-center justify-center text-center bg-cover bg-center mt-30"
-    style="background-image: url('/assets/shop/migu-img-2.jpg');"
+    class="relative w-full h-[500px] flex items-center justify-center text-center bg-cover bg-center mt-30 transition-all duration-1000 ease-in-out"
+    :style="{ backgroundImage: `url('${images[currentIndex]}')` }"
   >
-    <!-- Overlay para mejorar la legibilidad -->
+    <!-- Overlay -->
     <div class="absolute inset-0 bg-black/40"></div>
 
     <!-- Contenido -->
@@ -24,5 +24,33 @@
 </template>
 
 <script setup>
-// En el futuro se puede pasar imagen, título y texto como props
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+
+const images = [
+  '/assets/shop/migu-img-2.jpg',
+  '/assets/shop/migu-img-4.jpg',
+  '/assets/shop/migu-img-2.jpg',
+  '/assets/shop/migu-img-2.jpg'
+]
+
+const currentIndex = ref(0)
+let intervalId = null
+
+const changeImage = () => {
+  currentIndex.value = (currentIndex.value + 1) % images.length
+}
+
+onMounted(() => {
+  intervalId = setInterval(changeImage, 5000) // cambia cada 5 segundos
+})
+
+onBeforeUnmount(() => {
+  clearInterval(intervalId)
+})
 </script>
+
+<style scoped>
+section {
+  transition: background-image 1s ease-in-out;
+}
+</style>

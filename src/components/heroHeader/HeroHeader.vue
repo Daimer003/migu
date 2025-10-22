@@ -12,7 +12,7 @@ import HeroPattern from '../HeroPattern.vue';
     <!-- Overlay para mejorar contraste (opcional) -->
     <!--div class="absolute inset-0 bg-black bg-opacity-00"></div-->
 
-    <div class="flex justify-center items-center relative z-10 px-4 w-full gap-10 max-w-[1200px]">
+    <div class="flex flex-col lg:flex-row justify-center items-center relative z-10 px-4 w-full gap-10 max-w-[1200px]">
       <div class="flex flex-col items-start w-full">
         <!-- Título -->
         <h1 class="text-4xl md:text-5xl font-bold mb-4">

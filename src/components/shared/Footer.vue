@@ -36,14 +36,14 @@
       <div>
         <h3 class="text-lg font-semibold mb-4">Síguenos</h3>
         <div class="flex space-x-4">
-          <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-[#ff4d6d] text-white hover:bg-[#e63b58] transition">
-            <i class="fab fa-facebook-f"></i>
+          <a href="https://www.facebook.com/migushopco" target="_blank" class="w-8 h-8 flex items-center justify-center rounded-full bg-[#ff4d6d] text-white hover:bg-[#e63b58] transition p-1">
+           <IconFacebook />
           </a>
-          <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-[#ff4d6d] text-white hover:bg-[#e63b58] transition">
-            <i class="fab fa-instagram"></i>
+          <a href="https://www.instagram.com/migushopco/" target="_blank" class="w-8 h-8 flex items-center justify-center rounded-full bg-[#ff4d6d] text-white hover:bg-[#e63b58] transition p-1">
+           <IconInstagram />
           </a>
-          <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-[#ff4d6d] text-white hover:bg-[#e63b58] transition">
-            <i class="fab fa-tiktok"></i>
+          <a href="https://www.tiktok.com/@migushopco" target="_blank" class="w-8 h-8 flex items-center justify-center rounded-full bg-[#ff4d6d] text-white hover:bg-[#e63b58] transition p-1">
+           <IconTiktok />
           </a>
         </div>
       </div>
@@ -57,6 +57,12 @@
 </template>
 
 <script setup>
+import IconFacebook from '../icons/IconFacebook.vue';
+import IconInstagram from '../icons/IconInstagram.vue';
+import IconTiktok from '../icons/IconTiktok.vue';
+
+
+
 // Si usas FontAwesome, asegúrate de tenerlo importado en tu proyecto.
 // También puedes reemplazar los <i> por <svg> de Heroicons si prefieres.
 </script>
