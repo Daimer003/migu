@@ -13,35 +13,38 @@
       </h1>
 
       <!-- Contenido en columnas -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
 
-        <!-- Bloque 1 -->
-        <div class="bg-white shadow-md p-6 rounded-lg flex flex-col items-center">
-          <div class="text-pink-400 text-6xl mb-4">☁️</div>
-          <p class="text-gray-700 text-md leading-relaxed">
-            "Creamos ropa con propósito: prendas que se adaptan a las necesidades de todos los niños,
-            incluyendo aquellos con condiciones especiales, para que puedan sentirse libres,
-            cómodos y seguros en su día a día."
-          </p>
-        </div>
-
-        <!-- Bloque 2 -->
-        <div class="bg-white shadow-md p-6 rounded-lg flex flex-col items-center">
+        <!-- VISIÓN -->
+        <div class="bg-white shadow-md p-8 rounded-lg flex flex-col items-center">
           <div class="text-blue-500 text-6xl mb-4">👁️</div>
-          <p class="text-gray-700 text-md leading-relaxed">
-            "Creemos en una moda inclusiva: nuestras prendas combinan funcionalidad, estilo y accesibilidad
-            para que todos los niños —sin excepción— puedan vestirse con facilidad,
-            sentirse bien y expresarse con libertad."
+          <h2 class="text-2xl font-bold text-[#ff4d6d] mb-4">Visión</h2>
+          <p class="text-gray-700 text-md leading-relaxed text-justify">
+            Somos una marca que piensa en mejorar la calidad de vida de nuestros niños. 
+            Los procesos de confección, la calidad de las telas y los diseños están destinados 
+            al cuidado y protección de ellos. Más allá de vender una prenda, nos enfocamos 
+            en protegerlos; el 80% de nuestros productos cuentan con características como 
+            protección UV, protección antibacterial y fácil lavado.  
+            Nuestras telas son resistentes al deterioro por el uso habitual y de excelente calidad.  
+            <br /><br />
+            A mediano plazo, también pensamos en las familias, seguros de que la solidaridad 
+            fortalece y la cooperación es una de las mejores herramientas para convivir en sociedad.  
+            Queremos apoyar proyectos productivos y emprendimientos de quienes con esfuerzo 
+            sacan a sus hijos adelante. ¡Porque así nació MIGU!
           </p>
         </div>
 
-        <!-- Bloque 3 -->
-        <div class="bg-white shadow-md p-6 rounded-lg flex flex-col items-center">
-          <div class="text-red-500 text-6xl mb-4">🧩</div>
-          <p class="text-gray-700 text-md leading-relaxed">
-            "Nuestros tejidos de alta tecnología están diseñados para brindar confort,
-            regulación térmica y máxima suavidad, con materiales libres de químicos agresivos,
-            ideales para pieles sensibles."
+        <!-- MISIÓN -->
+        <div class="bg-white shadow-md p-8 rounded-lg flex flex-col items-center">
+          <div class="text-pink-500 text-6xl mb-4">💫</div>
+          <h2 class="text-2xl font-bold text-[#ff4d6d] mb-4">Misión</h2>
+          <p class="text-gray-700 text-md leading-relaxed text-justify">
+            ¡Crecer! Como marca, como emprendimiento y como sueño.  
+            Cada día anhelamos vestir mejor a nuestros niños, ofrecerles protección, 
+            resaltar su alegría y acompañar su crecimiento.  
+            Queremos que el juego y el aprendizaje vayan de la mano con la calidad 
+            y el diseño de nuestras prendas, brindando siempre comodidad, seguridad 
+            y confianza a quienes más amamos.
           </p>
         </div>
 
@@ -49,3 +52,7 @@
     </div>
   </section>
 </template>
+
+<script setup>
+// Este componente no necesita lógica reactiva, pero puede recibir props en el futuro.
+</script>
