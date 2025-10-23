@@ -23,7 +23,7 @@ const routes = [
   { path: "/verificar/", name: "Checkout", component: CheckoutView },
   { path: "/buscar/", name: "Buscar", component: SearchView },
   { path: "/perfil/", name: "Perfil", component: Profile },
-  { path: "/politica-privacidad/", name: "politica", component: Privacypolicy },
+  { path: "/politica-privacidad/", name: "Politica", component: Privacypolicy },
   { path: "/dashboard/", name: "Dashboard", component: Dashboard },
 ];
 
