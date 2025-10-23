@@ -4,7 +4,7 @@ import HeroPattern from '../HeroPattern.vue';
 </script>
 
 <template>
-  <section class="relative bg-[#fff9f6] w-full h-[80vh] flex items-center justify-center text-center">
+  <section class="relative bg-[#fff9f6] w-full  flex items-center justify-center text-center">
     <!-- Imagen de fondo -->
     <img src="@/assets/bg-migu.webp" alt="Fondo decorativo"
       class="absolute inset-0 w-full h-full object-cover opacity-5 grayscale" />
@@ -12,7 +12,7 @@ import HeroPattern from '../HeroPattern.vue';
     <!-- Overlay para mejorar contraste (opcional) -->
     <!--div class="absolute inset-0 bg-black bg-opacity-00"></div-->
 
-    <div class="flex flex-col lg:flex-row justify-center items-center relative z-10 px-4 w-full gap-10 max-w-[1200px] mt-60">
+    <div class="flex flex-col lg:flex-row justify-center items-center relative z-10 px-4 w-full gap-10 max-w-[1200px] mt-30">
       <div class="flex flex-col items-start w-full">
         <!-- Título -->
         <h1 class="text-4xl md:text-5xl font-bold mb-4">
