@@ -15,7 +15,7 @@
           <img
             :src="image.url"
             :alt="'Instagram image ' + (index + 1)"
-            class="w-full h-80 object-cover transform group-hover:scale-110 transition duration-500"
+            class="w-full  object-cover transform group-hover:scale-110 transition duration-500"
           />
 
           <!-- Overlay Instagram style -->
