@@ -1,5 +1,5 @@
 <template>
-  <section class="p-10">
+  <section class="p-5 md:p-10">
     <div class="max-w-[1900px] mx-auto mt-30">
       <h2 class="text-3xl md:text-4xl font-bold mb-10 text-center text-[#2b2b2b]">
         Nuestros Productos
@@ -48,7 +48,7 @@
           <img
             :src="product.image"
             :alt="product.name"
-            class="w-full min-h-[400px] object-cover"
+            class="w-full max-h-[550px] object-cover"
           />
 
           <!-- Contenido con colores -->
