@@ -1,5 +1,5 @@
 <template>
-  <section class="p-10 bg-white mt-30">
+  <section class="p-5 md:p-10 bg-white mt-30">
     <div class="max-w-[1900px] mx-auto">
       <h2 class="text-3xl md:text-4xl font-bold mb-10 text-center text-[#2b2b2b]">
         Nuestro Instagram
