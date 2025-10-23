@@ -11,6 +11,7 @@ import CheckoutView from "./views/CheckoutView.vue";
 import SearchView from "./views/SearchView.vue";
 import Profile from "./views/Profile.vue";
 import Dashboard from "./views/dashboard/Dashboard.vue";
+import Privacypolicy from "./views/Privacypolicy.vue";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
@@ -22,7 +23,7 @@ const routes = [
   { path: "/verificar/", name: "Checkout", component: CheckoutView },
   { path: "/buscar/", name: "Buscar", component: SearchView },
   { path: "/perfil/", name: "Perfil", component: Profile },
-
+  { path: "/politica-privacidad/", name: "Perfil", component: Privacypolicy },
   { path: "/dashboard/", name: "Dashboard", component: Dashboard },
 ];
 
