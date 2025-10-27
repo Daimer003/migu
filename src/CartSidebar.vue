@@ -23,7 +23,7 @@
           </div>
           <div class="flex items-center gap-2">
             <p class="text-gray-700">${{ item.price * item.quantity }}</p>
-            <button @click="removeFromCart(item.id)" class="text-red-500 hover:text-red-700">
+            <button @click="removeFromCart(item)" class="text-red-500 hover:text-red-700">
               ✕
             </button>
           </div>
@@ -42,13 +42,13 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref, watch } from "vue"
 import { useCart } from "./composables/useCart"
 import { useRouter } from "vue-router"
 const { push } = useRouter()
 
 
-const { cart, total, removeFromCart, clearCart } = useCart()
+const { cart, total, removeFromCart } = useCart()
 const isOpen = ref(false)
 
 function openCart() {
@@ -61,6 +61,10 @@ function checkout() {
   push('/verificar')
   closeCart()
 }
+
+watch(cart, (newVal) => {
+  if (newVal.length === 0) closeCart()
+})
 
 // Exponemos funciones para abrir/cerrar desde afuera
 defineExpose({ openCart, closeCart })

@@ -139,7 +139,7 @@
           <div v-if="cart.length" class="space-y-2">
             <div v-for="(item, i) in cart" :key="i" class="flex justify-between items-center border p-2 rounded">
               <span>{{ item.name }} (x{{ item.quantity }})</span>
-              <button @click="removeFromCart(i)" class="text-red-500 text-sm">
+              <button @click="removeFromCart(item)" class="text-red-500 text-sm cursor-pointer">
                 Eliminar
               </button>
             </div>
