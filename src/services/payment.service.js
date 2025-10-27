@@ -81,11 +81,12 @@ export const createPayment = async (paymentData, form, cart) => {
 
     // 2️ Crear los items del pago
     const itemsWithPaymentId = cart.map((item) => ({
-      payment_id: payment.id, // Importante
+      payment_id: payment.id,
       product_id: item.id,
       quantity: item.quantity,
       unit_price: item.price,
       size: item.size,
+      numero_documento:  payment.billing_data.legal_id
     }));
 
     const { error: itemsError } = await supabase
@@ -95,7 +96,7 @@ export const createPayment = async (paymentData, form, cart) => {
     if (itemsError) throw itemsError;
 
     // (El trigger descontará automáticamente el stock)
-    return { success: true, paymentId: payment.id };
+    return { success: true, paymentId: payment.id, document: payment.billing_data };
   } catch (error) {
     console.error("Error en createPayment:", error.message);
     return { success: false, error: error.message };
