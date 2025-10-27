@@ -5,7 +5,7 @@
 
       <!-- Lista de productos -->
       <div
-        v-for="(item, index) in cart"
+        v-for="(item) in cart"
         :key="`${item.id}-${item.size}-${item.color}`"
         class="flex items-center justify-between bg-white p-4 rounded-lg shadow mb-4"
       >
@@ -190,7 +190,7 @@ const { cart, total, increment, decrement, removeFromCart } = useCart()
 const redirectUrl = `${window.location.origin}/confirmacion`
 
 // Simulación: el usuario ganó un descuento en el juego MIGÚ
-const userHasDiscount = ref(true) // ✅ Cámbialo dinámicamente cuando el usuario gane
+const userHasDiscount = ref(true) // Cámbialo dinámicamente cuando el usuario gane
 
 const discountApplied = ref(false)
 

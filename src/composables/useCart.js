@@ -3,14 +3,14 @@ import { ref, computed, watch } from "vue"
 const cart = ref(JSON.parse(localStorage.getItem("cart")) || [])
 
 export function useCart() {
-  // 🔹 Calcular total redondeado sin decimales
-  const total = computed(() =>
-    Math.round(
-      cart.value.reduce((acc, item) => acc + item.price * item.quantity, 0)
-    )
+  // Calcular total redondeado sin decimales
+const total = computed(() =>
+  Math.round(
+    cart.value.reduce((acc, item) => acc + Number(item.price) * Number(item.quantity), 0)
   )
+)
 
-  // 🔹 Guardar en localStorage cada vez que cambia el carrito
+  // Guardar en localStorage cada vez que cambia el carrito
   watch(
     cart,
     (newCart) => {
@@ -19,7 +19,7 @@ export function useCart() {
     { deep: true }
   )
 
-  // 🔹 Agregar producto (distinguiendo talla y color)
+  // Agregar producto (distinguiendo talla y color)
   function addToCart(product) {
     const existing = cart.value.find(
       (item) =>
@@ -35,7 +35,7 @@ export function useCart() {
     }
   }
 
-  // 🔹 Incrementar cantidad (+)
+  // Incrementar cantidad (+)
   function increment(product) {
     const existing = cart.value.find(
       (item) =>
@@ -46,7 +46,7 @@ export function useCart() {
     if (existing) existing.quantity++
   }
 
-  // 🔹 Decrementar cantidad (-)
+  // Decrementar cantidad (-)
   function decrement(product) {
     const existing = cart.value.find(
       (item) =>
@@ -60,7 +60,7 @@ export function useCart() {
     }
   }
 
-  // 🔹 Actualizar cantidad manualmente (input)
+  // Actualizar cantidad manualmente (input)
   function updateQuantity(product, newQuantity) {
     const existing = cart.value.find(
       (item) =>
@@ -73,7 +73,7 @@ export function useCart() {
     }
   }
 
-  // 🔹 Eliminar producto (según talla y color)
+  // Eliminar producto (según talla y color)
   function removeFromCart(product) {
     cart.value = cart.value.filter(
       (item) =>
@@ -85,7 +85,7 @@ export function useCart() {
     )
   }
 
-  // 🔹 Vaciar carrito completamente
+  // Vaciar carrito completamente
   function clearCart() {
     cart.value = []
     localStorage.removeItem("cart")

@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabaseClient"
+import { supabase } from "@/lib/supabaseClient";
 
 // Función para procesar una compra utilizando una función almacenada en Supabase
 export const processPurchase = async (_, { userId, total, items }) => {
@@ -7,15 +7,15 @@ export const processPurchase = async (_, { userId, total, items }) => {
       p_user_id: userId,
       p_total_amount: total,
       p_items: items, // JSON con los productos comprados
-    })
+    });
 
-    if (error) throw error
-    return { success: true }
+    if (error) throw error;
+    return { success: true };
   } catch (error) {
-    console.error("Error en processPurchase:", error.message)
-    return { success: false, error }
+    console.error("Error en processPurchase:", error.message);
+    return { success: false, error };
   }
-}
+};
 
 /**
  * Registra una transacción de compra
@@ -26,12 +26,41 @@ export const processPurchase = async (_, { userId, total, items }) => {
  * @param {String} paymentData.reference - Referencia
  * @param {String} paymentData.idTransaccion - id_transaccion
  */
-export const createPayment = async (paymentData) => {
-  const {  amount, reference, idTransaccion } = paymentData
+export const createPayment = async (paymentData, form, cart) => {
+  const { amount, reference, idTransaccion } = paymentData;
   try {
-    // Iniciamos una transacción simulada (Supabase no soporta BEGIN/COMMIT desde el cliente)
-    // Así que usamos lógica secuencial con rollback manual en caso de error
-    console.log("Iniciando creación de pago...")
+    // Iniciamos una transacción
+    console.log("Iniciando creación de pago...", form);
+
+    // Verificar si el cliente ya existe
+    const { data: existingClient } = await supabase
+      .from("clientes")
+      .select("id")
+      .eq("email", form.email)
+      .maybeSingle();
+
+    let clienteId = existingClient?.id;
+
+    // Si no existe, crear el cliente
+    if (!clienteId) {
+      const { data: newClient, error: clientError } = await supabase
+        .from("clientes")
+        .insert([
+          {
+            nombre: form.name,
+            email: form.email,
+            telefono: form.phone,
+            direccion: form.address,
+            ciudad: form.city,
+            postal_code: form.postalCode,
+          },
+        ])
+        .select()
+        .single();
+
+      if (clientError) throw clientError;
+      clienteId = newClient.id;
+    }
     // Crear registro principal en "payments"
     const { data: payment, error: paymentError } = await supabase
       .from("pagos")
@@ -41,21 +70,34 @@ export const createPayment = async (paymentData) => {
           reference: reference,
           amount,
           status: "pending",
+          cliente_id: clienteId,
           created_at: new Date(),
         },
       ])
       .select()
-      .single()
+      .single();
 
-    if (paymentError) throw new Error(paymentError.message)
+    if (paymentError) throw new Error(paymentError.message);
 
+    // 2️ Crear los items del pago
+    const itemsWithPaymentId = cart.map((item) => ({
+      payment_id: payment.id, // Importante
+      product_id: item.id,
+      quantity: item.quantity,
+      unit_price: item.price,
+      size: item.size,
+    }));
+
+    const { error: itemsError } = await supabase
+      .from("payment_items")
+      .insert(itemsWithPaymentId);
+
+    if (itemsError) throw itemsError;
 
     // (El trigger descontará automáticamente el stock)
-    return { success: true, paymentId: payment.id }
-
+    return { success: true, paymentId: payment.id };
   } catch (error) {
-    console.error("Error en createPayment:", error.message)
-    return { success: false, error: error.message }
+    console.error("Error en createPayment:", error.message);
+    return { success: false, error: error.message };
   }
-}
-
+};

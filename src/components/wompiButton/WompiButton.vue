@@ -38,8 +38,6 @@ export default {
     },
   },
 
-
-
   mounted() {
     // Cargar el script de Wompi dinámicamente
     const script = document.createElement('script');
@@ -47,10 +45,10 @@ export default {
     script.async = true;
     script.onload = () => {
       this.widgetReady = true;
-      console.log('✅ Wompi Widget cargado correctamente');
+      console.log('Wompi Widget cargado correctamente');
     };
     script.onerror = () => {
-      console.error('❌ Error al cargar el script de Wompi');
+      console.error('Error al cargar el script de Wompi');
     };
     document.body.appendChild(script);
   },
@@ -61,7 +59,7 @@ export default {
       const amountInCents = this.total * 100;// Convertir a centavos
       const currency = "COP";
 
-      // 🔹 Llamar a la función Edge de Supabase
+      // Llamar a la función Edge de Supabase
       const result = await generateSignature({
         reference,
         amountInCents,
@@ -96,17 +94,14 @@ export default {
           },
         });
 
-
         checkout.open((paymentResult) => {
           const payment = createPayment({
             idTransaccion: paymentResult.transaction.id,
             reference: paymentResult.transaction.reference,
             amount: this.total,
-          });
+          }, this.form, this.cart);
           console.log('Registro de pago creado:', payment);
         });
-
-
       } catch (err) {
         console.error("Error generando la firma:", err);
       }
