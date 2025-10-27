@@ -157,7 +157,7 @@
               :redirectUrl="redirectUrl"
             />
             <button
-              :disabled="!userHasDiscount || discountApplied"
+              :disabled="true"
               @click="applyDiscount"
               :class="[
                 'px-6 py-3 rounded-xl font-semibold transition-all duration-200',
