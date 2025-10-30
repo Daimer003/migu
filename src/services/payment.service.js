@@ -59,21 +59,7 @@ export const createPayment = async (paymentData, form, cart) => {
 
     if (paymentError) throw new Error(paymentError.message);
 
-    // 2️ Crear los items del pago
-    const itemsWithPaymentId = cart.map((item) => ({
-      payment_id: payment.id,
-      product_id: item.id,
-      quantity: item.quantity,
-      unit_price: item.price,
-      size: item.size,
-      numero_documento: form.document
-    }));
 
-    const { error: itemsError } = await supabase
-      .from("payment_items")
-      .insert(itemsWithPaymentId);
-
-    if (itemsError) throw itemsError;
 
     // (El trigger descontará automáticamente el stock)
     return { success: true, paymentId: payment.id, document: payment.billing_data };
@@ -84,10 +70,9 @@ export const createPayment = async (paymentData, form, cart) => {
 };
 
 // Crear el cleinte para la compra
-export const createClientPay = async (form) => {
+export const createClientPay = async (form, cart) => {
   try {
   
-    console.log(form.email)
     // Verificar si el cliente ya existe
     const { data: existingClient } = await supabase
       .from("clientes")
@@ -117,6 +102,22 @@ export const createClientPay = async (form) => {
       if (clientError) throw clientError;
       clienteId = newClient.id;
     }
+
+        // 2️ Crear los items del pago
+    const itemsWithPaymentId = cart.map((item) => ({
+      payment_id: payment.id,
+      product_id: item.id,
+      quantity: item.quantity,
+      unit_price: item.price,
+      size: item.size,
+      numero_documento: form.document
+    }));
+
+    const { error: itemsError } = await supabase
+      .from("payment_items")
+      .insert(itemsWithPaymentId);
+
+    if (itemsError) throw itemsError;
 
     return clienteId
 } catch (error) {
