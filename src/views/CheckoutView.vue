@@ -135,6 +135,29 @@
                 class="w-full p-2 border rounded-lg border-gray-500 text-xl text-gray-500"
               />
             </div>
+
+        
+
+             <div>
+              <label class="block text-xs font-medium text-gray-500">Barrio</label>
+              <input
+                v-model="form.neighborhood"
+                type="text"
+                required
+                class="w-full p-2 border rounded-lg border-gray-500 text-xl text-gray-500"
+              />
+            </div>
+
+                 <div>
+              <label class="block text-xs font-medium text-gray-500">Documento de identidad</label>
+              <input
+                v-model="form.document"
+                type="text"
+                required
+                class="w-full p-2 border rounded-lg border-gray-500 text-xl text-gray-500"
+              />
+            </div>
+
             <div>
               <label class="block text-xs font-medium text-gray-500"
                 >Código Postal</label
@@ -207,6 +230,8 @@ const form = reactive({
   phone: "",
   address: "",
   city: "",
+  neighborhood: "",
+  document: "",
   zip: "",
 })
 

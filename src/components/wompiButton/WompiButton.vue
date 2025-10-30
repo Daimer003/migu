@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { createPayment } from '@/services/payment.service';
+import { createClientPay, createPayment } from '@/services/payment.service';
 import { generateSignature } from '@/services/signature.service';
 
 export default {
@@ -46,7 +46,6 @@ export default {
     script.async = true;
     script.onload = () => {
       this.widgetReady = true;
-      console.log('Wompi Widget cargado correctamente');
     };
     script.onerror = () => {
       console.error('Error al cargar el script de Wompi');
@@ -68,7 +67,7 @@ export default {
       });
 
       if (!window.WidgetCheckout) {
-        alert('El widget de Wompi aún no está listo.');
+        console.log('El widget de Wompi aún no está listo.');
         return;
       }
 
@@ -77,7 +76,9 @@ export default {
           throw new Error('No se pudo obtener la firma o la clave pública.');
         }
 
-        console.log('Iniciando pago con Wompi...');
+        const client = await createClientPay(this.form)
+        if (!client) throw Error('No se creo el cliente')
+
         // Crear el widget con la firma recibida
         const checkout = new window.WidgetCheckout({
           currency,
@@ -92,6 +93,8 @@ export default {
             email: this.form.email,
             phoneNumberPrefix: '+57',
             phoneNumber: this.form.phone,
+            legalId: this.form.document,
+            legalIdType: 'CC'
           },
         });
 
