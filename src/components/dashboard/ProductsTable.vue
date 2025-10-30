@@ -204,6 +204,7 @@ const form = ref({
   description: "",
   longDescription: "",
   care: "",
+  size: [],
   image: "",
   colors: [],
   gallery: [],
@@ -225,7 +226,7 @@ function openModal(product = null) {
   selectedProduct.value = product;
   form.value = product
     ? { ...product, colors: product.colors || [] }
-    : { ref: "", name: "", price: "", oldPrice: "", savings: "", discount: "", category: "", description: "", longDescription: "", care: "", image: "", colors: [], gallery: [] };
+    : { ref: "", name: "", price: "", oldPrice: "", savings: "", discount: "", category: "", description: "", longDescription: "", care: "", size:[], image: "", colors: [], gallery: [] };
 
   previewMainImage.value = product?.image || null;
   previewExtraImages.value = Array.isArray(product?.gallery) ? product.gallery : [];
@@ -279,10 +280,36 @@ async function saveProduct() {
 
   const productData = { ...form.value, image: imageUrl, gallery: extraUrls };
 
+  let productId = selectedProduct.value?.id;
+
+  // Crear o actualizar producto
   if (selectedProduct.value) {
-    await supabase.from("products").update(productData).eq("id", selectedProduct.value.id);
+    const { error } = await supabase
+      .from("products")
+      .update(productData)
+      .eq("id", selectedProduct.value.id);
+    if (error) console.error("Error al actualizar producto:", error);
   } else {
-    await supabase.from("products").insert([productData]);
+    const { data, error } = await supabase.from("products").insert([productData]).select("id").single();
+    if (error) console.error("Error al crear producto:", error);
+    productId = data?.id;
+  }
+
+console.log(productId, stock.value.length)
+
+  if (productId && stock.value.length > 0) {
+  const stockPayload = stock.value.map((s) => ({
+    product_id: productId,
+    size: s.size,
+    quantity: s.quantity,
+  }));
+
+  const { error: stockError } = await supabase
+    .from("product_stock")
+    .upsert(stockPayload, { onConflict: ["product_id", "size"] }) // 👈 igual que en Postman
+    .select();
+
+  if (stockError) console.error("Error al actualizar stock:", stockError);
   }
 
   loading.value = false;
