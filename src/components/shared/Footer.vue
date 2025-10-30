@@ -50,18 +50,19 @@
     </div>
 
     <!-- Línea inferior -->
-    <div class="mt-10 border-t border-gray-200 pt-4 text-center text-sm text-gray-500">
+    <div @click="push('/politica-privacidad')" class="mt-10 border-t border-gray-200 pt-4 text-center text-sm text-gray-500 hover:text-gray-300">
       © 2025 MiGÚ Kids. Todos los derechos reservados.
     </div>
   </footer>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
 import IconFacebook from '../icons/IconFacebook.vue';
 import IconInstagram from '../icons/IconInstagram.vue';
 import IconTiktok from '../icons/IconTiktok.vue';
 
-
+const { push } = useRouter()
 
 // Si usas FontAwesome, asegúrate de tenerlo importado en tu proyecto.
 // También puedes reemplazar los <i> por <svg> de Heroicons si prefieres.

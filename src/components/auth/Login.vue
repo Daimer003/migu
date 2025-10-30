@@ -1,11 +1,11 @@
 <template>
   <div class="flex items-center justify-center h-screen w-full">
-    <form @submit.prevent="login" class="bg-white p-6 rounded-md shadow-md w-80 space-y-4">
+    <div class="bg-white p-6 rounded-md shadow-md w-80 space-y-4">
       <h2 class="text-xl font-bold text-center">Login</h2>
       <input v-model="email" type="email" placeholder="Email" class="w-full border p-2 rounded" />
       <input v-model="password" type="password" placeholder="Contraseña" class="w-full border p-2 rounded" />
-      <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md">Iniciar sesión</button>
-    </form>
+      <button @click="login" class="w-full bg-blue-500 text-white py-2 rounded-md">Iniciar sesión</button>
+    </div>
   </div>
 </template>
 

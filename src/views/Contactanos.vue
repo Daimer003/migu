@@ -62,7 +62,7 @@ const sendMessage = async () => {
 
       <p class="text-center text-gray-600 mt-8">
         También puedes escribirnos a 
-        <a href="mailto:hola@migu.com" class="text-[#ff4d6d] font-semibold hover:underline">hola@migu.com</a>
+        <a href="mailto:hola@migu.com" class="text-[#ff4d6d] font-semibold hover:underline">migushopco@gmail.com</a>
       </p>
     </div>
   </section>

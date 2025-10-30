@@ -8,8 +8,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
-import { getUserAuth } from '@/services/user.service'
+import { ref, onMounted, onUnmounted } from 'vue'
+import { supabase } from '@/lib/supabaseClient'
 import Login from './Login.vue'
 
 const user = ref(null)
@@ -17,31 +17,18 @@ const role = ref(null)
 const loading = ref(true)
 
 onMounted(async () => {
-  const response = await getUserAuth()
-  if (response) {
-    user.value = response.user
-    role.value = response.role
-    loading.value = true
-  } else {
-    user.value = null
-    role.value = null
+  const { data } = await supabase.auth.getUser()
+  user.value = data.user
+  role.value = data.user?.role || 'authenticated'
+  loading.value = false
 
+  const { data: listener } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    user.value = session?.user || null
+    role.value = session?.user ? 'authenticated' : null
+  })
 
-    loading.value = false
-  }
+  onUnmounted(() => {
+    listener.subscription.unsubscribe()
+  })
 })
-
-watch(
-  () => user.value,
-  async (newUser) => {
-    if (newUser) {
-      const response = await getUserAuth()
-      user.value = response.user
-      role.value = response.role
-    } else {
-      user.value = null
-      role.value = null
-    }
-  }
-)
 </script>
