@@ -224,7 +224,7 @@ function handleAddToCart() {
       color: selectedColor.value,
       quantity: quantity.value,
     }
-console.log(newItem)
+
     addToCart(newItem)
 
     toast?.value?.showToast({
@@ -263,8 +263,6 @@ function handleBuyNow() {
       color: selectedColor.value,
       quantity: quantity.value,
     }
-
-console.log(newItem)
 
     addToCart(newItem)
 

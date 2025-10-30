@@ -122,7 +122,7 @@ export default {
       });
 
       checkout.open((paymentResult) => {
-        console.log("Transacción Wompi:", paymentResult);
+        //console.log("Transacción Wompi:", paymentResult);
         // No hacemos nada aquí — el webhook se encarga del resto.
       });
     },

@@ -86,7 +86,7 @@ const orders = ref([]);
 const selectedDate = ref(new Date().toISOString().slice(0, 10));
 const searchClient = ref("");
 
-// 📦 Cargar órdenes del día
+// Cargar órdenes del día
 async function fetchOrders() {
   const startOfDay = new Date(selectedDate.value);
   startOfDay.setHours(0, 0, 0, 0);
@@ -117,14 +117,12 @@ async function fetchOrders() {
     
     
     const { data, error } = await query;
-    
-    console.log(data)
   if (error) {
-    console.error("❌ Error cargando órdenes:", error);
+    console.error("Error cargando órdenes:", error);
     return;
   }
 
-  // 🧩 Mapear resultado con nombre del cliente y productos
+  // Mapear resultado con nombre del cliente y productos
   orders.value = data.map((order) => ({
     id: order.id,
     status: order.status,
@@ -138,7 +136,7 @@ async function fetchOrders() {
   }));
 }
 
-// 🧠 Filtro por cliente (opcional)
+// Filtro por cliente (opcional)
 const filteredOrders = computed(() => {
   if (!searchClient.value.trim()) return orders.value;
   return orders.value.filter((o) =>
