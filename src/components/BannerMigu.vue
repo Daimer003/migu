@@ -1,8 +1,7 @@
 <template>
   <section
     class="relative w-full h-[500px] flex items-center justify-center text-center bg-cover bg-center mt-30 transition-all duration-1000 ease-in-out"
-    :style="{ backgroundImage: `url('${images[currentIndex]}')` }"
-  >
+    :style="{ backgroundImage: `url('${images[currentIndex]}')` }">
     <!-- Overlay -->
     <div class="absolute inset-0 bg-black/40"></div>
 
@@ -14,9 +13,9 @@
       <p class="mt-4 text-lg md:text-xl text-gray-100 drop-shadow-md">
         Fabricamos piezas únicas que elevan tu estilo y tu espacio.
       </p>
-      <button
-        class="mt-6 bg-[#debcc2] text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-[#c7a4aa] transition"
-      >
+      <button 
+      @click="push('/coleccion')" 
+        class="mt-6 bg-[#debcc2] text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-[#c7a4aa] transition">
         Ver Colección
       </button>
     </div>
@@ -25,6 +24,8 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { useRouter } from 'vue-router'
+const { push } = useRouter()
 
 const images = [
   '/assets/shop/migu-img-2.jpg',

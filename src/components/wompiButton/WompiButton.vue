@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { createClientPay, createPayment } from '@/services/payment.service';
+//import { createClientPay, createPayment } from '@/services/payment.service';
 import { generateSignature } from '@/services/signature.service';
 import { supabase } from "@/lib/supabaseClient";
 
