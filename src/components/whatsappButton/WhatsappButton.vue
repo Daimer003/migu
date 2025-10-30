@@ -1,5 +1,5 @@
 <template>
-  <a href="https://wa.me/573001112233" 
+  <a href="https://wa.me/573239472084"
     target="_blank"
     rel="noopener noreferrer"
     class="fixed bottom-4 right-4 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg z-50
