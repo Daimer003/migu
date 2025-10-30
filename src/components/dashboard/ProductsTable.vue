@@ -3,10 +3,7 @@
     <h2 class="text-2xl font-bold mb-4">Productos</h2>
 
     <!-- Botón crear producto -->
-    <button
-      @click="openModal()"
-      class="mb-4 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
-    >
+    <button @click="openModal()" class="mb-4 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
       Nuevo Producto
     </button>
 
@@ -23,34 +20,20 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          v-for="product in products"
-          :key="product.id"
-          class="border-t hover:bg-gray-50 transition"
-        >
+        <tr v-for="product in products" :key="product.id" class="border-t hover:bg-gray-50 transition">
           <td class="px-4 py-3">{{ product.id }}</td>
           <td class="px-4 py-3">{{ product.name }}</td>
           <td class="px-4 py-3">$ {{ product.price?.toLocaleString() }}</td>
           <td class="px-4 py-3">{{ product.category }}</td>
           <td class="px-4 py-3">
-            <img
-              v-if="product.image"
-              :src="product.image"
-              alt="imagen"
-              class="w-12 h-12 rounded object-cover"
-            />
+            <img v-if="product.image" :src="product.image" alt="imagen" class="w-12 h-12 rounded object-cover" />
           </td>
           <td class="px-4 py-3 text-center space-x-2">
-            <button
-              @click="openModal(product)"
-              class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-            >
+            <button @click="openModal(product)" class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600">
               Editar
             </button>
-            <button
-              @click="deleteProduct(product.id)"
-              class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
-            >
+            <button @click="deleteProduct(product.id)"
+              class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600">
               Eliminar
             </button>
           </td>
@@ -59,10 +42,7 @@
     </table>
 
     <!-- Modal Crear / Editar -->
-    <div
-      v-if="showModal"
-      class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-    >
+    <div v-if="showModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div class="bg-white p-6 rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         <h3 class="text-xl font-semibold mb-4">
           {{ selectedProduct ? "Editar Producto" : "Nuevo Producto" }}
@@ -72,38 +52,36 @@
           <!-- Datos principales -->
           <input v-model="form.ref" type="text" placeholder="Referencia" class="border w-full p-2 rounded" />
           <input v-model="form.name" type="text" placeholder="Nombre" class="border w-full p-2 rounded" required />
-          
+
           <div class="grid grid-cols-2 gap-2">
-            <input v-model.number="form.price" type="number" placeholder="Precio actual" class="border p-2 rounded" required />
-            <input v-model.number="form.oldPrice" type="number" placeholder="Precio anterior" class="border p-2 rounded" />
+            <input v-model.number="form.price" type="number" placeholder="Precio actual" class="border p-2 rounded"
+              required />
+            <input v-model.number="form.oldPrice" type="number" placeholder="Precio anterior"
+              class="border p-2 rounded" />
           </div>
 
           <div class="grid grid-cols-3 gap-2">
             <input v-model.number="form.savings" type="number" placeholder="Ahorro" class="border p-2 rounded" />
-            <input v-model.number="form.discount" type="number" placeholder="Descuento (%)" class="border p-2 rounded" />
+            <input v-model.number="form.discount" type="number" placeholder="Descuento (%)"
+              class="border p-2 rounded" />
             <input v-model="form.category" type="text" placeholder="Categoría" class="border p-2 rounded" />
           </div>
 
-          <textarea v-model="form.description" placeholder="Descripción corta" class="border w-full p-2 rounded"></textarea>
-          <textarea v-model="form.longDescription" placeholder="Descripción larga" class="border w-full p-2 rounded"></textarea>
-          <textarea v-model="form.care" placeholder="Cuidados del producto" class="border w-full p-2 rounded"></textarea>
+          <textarea v-model="form.description" placeholder="Descripción corta"
+            class="border w-full p-2 rounded"></textarea>
+          <textarea v-model="form.longDescription" placeholder="Descripción larga"
+            class="border w-full p-2 rounded"></textarea>
+          <textarea v-model="form.care" placeholder="Cuidados del producto"
+            class="border w-full p-2 rounded"></textarea>
 
           <!-- Colores -->
           <div>
             <label class="font-semibold">Colores</label>
             <div class="flex flex-wrap gap-2 mt-1">
-              <input
-                v-for="(color, index) in form.colors"
-                :key="index"
-                v-model="form.colors[index]"
-                placeholder="Ej: Rojo"
-                class="border p-1 rounded"
-              />
-              <button
-                type="button"
-                @click="form.colors.push('')"
-                class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
-              >
+              <input v-for="(color, index) in form.colors" :key="index" v-model="form.colors[index]"
+                placeholder="Ej: Rojo" class="border p-1 rounded" />
+              <button type="button" @click="form.colors.push('')"
+                class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">
                 + Agregar
               </button>
             </div>
@@ -119,20 +97,11 @@
           <!-- Imágenes adicionales -->
           <div>
             <label class="font-semibold">Imágenes adicionales (máx. 3)</label>
-            <input
-              type="file"
-              multiple
-              @change="handleExtraImagesUpload"
-              accept="image/*"
-              class="border w-full p-2 rounded"
-            />
+            <input type="file" multiple @change="handleExtraImagesUpload" accept="image/*"
+              class="border w-full p-2 rounded" />
             <div class="flex gap-3 mt-2">
-              <img
-                v-for="(img, index) in previewExtraImages"
-                :key="index"
-                :src="img"
-                class="w-20 h-20 object-cover rounded"
-              />
+              <img v-for="(img, index) in previewExtraImages" :key="index" :src="img"
+                class="w-20 h-20 object-cover rounded" />
             </div>
           </div>
 
@@ -157,11 +126,7 @@
                 </tr>
               </tbody>
             </table>
-            <button
-              type="button"
-              @click="addStockRow"
-              class="mt-2 px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
-            >
+            <button type="button" @click="addStockRow" class="mt-2 px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
               + Agregar talla
             </button>
           </div>
@@ -171,10 +136,8 @@
             <button type="button" @click="closeModal" class="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400">
               Cancelar
             </button>
-            <button
-              type="submit"
-              class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center justify-center"
-            >
+            <button type="submit"
+              class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center justify-center">
               {{ loading ? "Guardando..." : "Guardar" }}
             </button>
           </div>
@@ -204,7 +167,6 @@ const form = ref({
   description: "",
   longDescription: "",
   care: "",
-  size: [],
   image: "",
   colors: [],
   gallery: [],
@@ -226,7 +188,7 @@ function openModal(product = null) {
   selectedProduct.value = product;
   form.value = product
     ? { ...product, colors: product.colors || [] }
-    : { ref: "", name: "", price: "", oldPrice: "", savings: "", discount: "", category: "", description: "", longDescription: "", care: "", size:[], image: "", colors: [], gallery: [] };
+    : { ref: "", name: "", price: "", oldPrice: "", savings: "", discount: "", category: "", description: "", longDescription: "", care: "",  image: "", colors: [], gallery: [] };
 
   previewMainImage.value = product?.image || null;
   previewExtraImages.value = Array.isArray(product?.gallery) ? product.gallery : [];
@@ -280,36 +242,56 @@ async function saveProduct() {
 
   const productData = { ...form.value, image: imageUrl, gallery: extraUrls };
 
-  let productId = selectedProduct.value?.id;
+  let productId = null;
 
   // Crear o actualizar producto
   if (selectedProduct.value) {
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from("products")
       .update(productData)
-      .eq("id", selectedProduct.value.id);
-    if (error) console.error("Error al actualizar producto:", error);
+      .eq("id", selectedProduct.value.id)
+      .select("id")
+      .single();
+
+    if (error) {
+      console.error("Error al actualizar producto:", error);
+      loading.value = false;
+      return;
+    }
+
+    productId = data.id;
   } else {
-    const { data, error } = await supabase.from("products").insert([productData]).select("id").single();
-    if (error) console.error("Error al crear producto:", error);
-    productId = data?.id;
+    const { data, error } = await supabase
+      .from("products")
+      .insert([productData])
+      .select("id")
+      .single();
+
+    if (error) {
+      console.error("Error al crear producto:", error);
+      loading.value = false;
+      return;
+    }
+
+    productId = data.id;
   }
 
-console.log(productId, stock.value.length)
-
+  // ✅ Actualizar stock (en tabla product_stock)
   if (productId && stock.value.length > 0) {
-  const stockPayload = stock.value.map((s) => ({
-    product_id: productId,
-    size: s.size,
-    quantity: s.quantity,
-  }));
+    const stockPayload = stock.value.map((s) => ({
+      product_id: productId,
+      size: s.size,
+      quantity: s.quantity,
+    }));
 
-  const { error: stockError } = await supabase
-    .from("product_stock")
-    .upsert(stockPayload, { onConflict: ["product_id", "size"] }) // 👈 igual que en Postman
-    .select();
+    const { error: stockError } = await supabase
+      .from("product_stock") // 👈 Asegúrate de que sea esta tabla
+      .upsert(stockPayload, { onConflict: ["product_id", "size"] })
+      .select();
 
-  if (stockError) console.error("Error al actualizar stock:", stockError);
+    if (stockError) {
+      console.error("Error al actualizar stock:", stockError);
+    }
   }
 
   loading.value = false;
@@ -319,6 +301,9 @@ console.log(productId, stock.value.length)
 
 async function deleteProduct(id) {
   if (!confirm("¿Seguro que deseas eliminar este producto?")) return;
+
+  await supabase.from("payment_items").delete().eq("id", id);
+  await supabase.from("product_stock").delete().eq("id", id);
   await supabase.from("products").delete().eq("id", id);
   fetchProducts();
 }
