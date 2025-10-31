@@ -9,13 +9,13 @@
         <div
           v-for="(image, index) in images"
           :key="index"
-          class="relative group overflow-hidden shadow hover:shadow-lg transition"
+          class="relative group overflow-hidden shadow hover:shadow-lg transition "
         >
           <!-- Imagen -->
           <img
             :src="image.url"
             :alt="'Instagram image ' + (index + 1)"
-            class="w-full  object-cover transform group-hover:scale-110 transition duration-500"
+            class="w-full max-h-[350px]  object-cover transform group-hover:scale-110 transition duration-500"
           />
 
           <!-- Overlay Instagram style -->
@@ -43,15 +43,15 @@
 const images = [
   { url: "/assets/shop/migu-img-3.jpg" },
   { url: "/assets/shop/migu-img-4.jpg" },
-  { url: "/assets/shop/migu-img-3.jpg" },
-  { url: "/assets/shop/migu-img-4.jpg" },
-   { url: "/assets/shop/migu-img-5.jpg" },
+  { url: "/assets/shop/migu-img-7.jpg" },
+  { url: "/assets/shop/migu-img-10.jpg" },
+   { url: "/assets/shop/migu-img-1.jpg" },
   { url: "/assets/shop/migu-img-6.jpg" },
-  { url: "/assets/shop/migu-img-3.jpg" },
-  { url: "/assets/shop/migu-img-4.jpg" },
-  { url: "/assets/shop/migu-img-3.jpg" },
-  { url: "/assets/shop/migu-img-4.jpg" },
-    { url: "/assets/shop/migu-img-3.jpg" },
+  { url: "/assets/shop/migu-img-8.jpg" },
+  { url: "/assets/shop/migu-img-13.jpg" },
+  { url: "/assets/shop/migu-img-11.jpg" },
+  { url: "/assets/shop/migu-img-12.jpg" },
+    { url: "/assets/shop/migu-img-9.jpg" },
   { url: "/assets/shop/migu-img-5.jpg" },
 ]
 </script>
